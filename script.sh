@@ -23,7 +23,7 @@ git clone https://github.com/vbombarda-aic/test_git_pull_ec2
 # write out current crontab
 sudo crontab -l > mycron
 # echo new cron into cron file
-echo "* * * * * cd /home/ec2-user/test_git_pull_ec2/ && git pull" >> mycron
+echo "* * * * * cd /home/ec2-user/test_git_pull_ec2/ && sudo git pull" >> mycron
 # install new cron file
 crontab mycron
 rm mycron
