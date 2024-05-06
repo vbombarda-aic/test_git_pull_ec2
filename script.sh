@@ -30,9 +30,9 @@ rm mycron
 
 
 ### Install Docker & Docker-Compose
-sudo yum install docker
+sudo yum install docker -y
 
-sudo yum install python3 python3-pip
+sudo yum install python3 python3-pip -y
 
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
@@ -44,4 +44,4 @@ sudo service docker start
 ENV_CONTENT="AIRFLOW_UID=50000\nAIRFLOW_GID=0"
 
 # Write content to .env file
-sudo echo -e "$ENV_CONTENT" > .env
+echo -e "$ENV_CONTENT" | sudo tee .env >/dev/null
