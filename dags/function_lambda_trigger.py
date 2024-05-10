@@ -26,7 +26,8 @@ class TriggerLambdaOperator(BaseOperator):
         # Check if invocation was successful
         if response['StatusCode'] == 200:
             self.log.info("Lambda function triggered successfully. Response:")
-            print(response)
+            response_payload = response['Payload'].read().decode('utf-8')
+            print(response_payload)
         else:
             self.log.error("Error triggering Lambda function: %s", response)
 
