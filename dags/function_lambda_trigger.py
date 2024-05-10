@@ -15,10 +15,10 @@ class TriggerLambdaOperator(BaseOperator):
 
     def execute(self, context):
         # Create a Lambda client
-        client = boto3.client('lambda')
+        client = boto3.client('lambda',
                               # aws_access_key_id=self.aws_access_key_id,
                               # aws_secret_access_key=self.aws_secret_access_key,
-                              # region_name=self.aws_region_name)
+                              region_name=self.aws_region_name)
         
         # Trigger the Lambda function
         response = client.invoke(FunctionName=self.lambda_function_name)
