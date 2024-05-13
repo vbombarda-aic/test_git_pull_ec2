@@ -21,10 +21,11 @@ default_args = {
 with DAG('dag_main', default_args=default_args, description='DAG to trigger a Lambda function', schedule_interval='@daily',
                     start_date=datetime(2024, 5, 1), catchup=False) as dag:
 
-
+    payload = {"bucket_name:" "aws-bix-aicollaborator", "file_path": "template_example.csv"}
     trigger_lambda = TriggerLambdaOperator(
         task_id='trigger_lambda_task',
-        lambda_function_name='hello_world'
+        lambda_function_name='hello_world',
+        payload=json.dumps(payload)
     )
 
     ( trigger_lambda )
