@@ -25,7 +25,7 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     trigger_lambda = TriggerLambdaOperator(
         task_id='trigger_lambda_task',
         lambda_function_name='hello_world',
-        payload=json.dumps(payload)
+        payload=payload
     )
 
     ( trigger_lambda )
