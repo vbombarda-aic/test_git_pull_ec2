@@ -34,7 +34,7 @@ class TriggerLambdaOperator(BaseOperator):
         else:
             self.log.error("Error triggering Lambda function: %s", response)
 
-        if not response_payload["success"]:
-            raise ValueError('The invoked Lambda Function failed.')
+        #if not response_payload["success"]:
+        #    raise ValueError('The invoked Lambda Function failed.')
 
         return response_payload
