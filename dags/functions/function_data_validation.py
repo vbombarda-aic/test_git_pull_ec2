@@ -1,5 +1,5 @@
 import pandas as pd
-import great_expectations as ge
+# import great_expectations as ge
 import boto3
 from io import StringIO
 
