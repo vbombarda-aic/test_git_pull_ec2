@@ -31,8 +31,8 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
 
     ingest_airflow = InsertStructuredData(
         task_id='insertion_task',
-        bucket_name = payload['bucket_name'],
-        file_path = payload['file_path']
+        bucket_name = "argo-data-lake",
+        file_path = "raw/data_example.csv"
     )
     
     ( trigger_lambda >> ingest_airflow )
