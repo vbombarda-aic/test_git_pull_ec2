@@ -1,4 +1,3 @@
-
 from airflow.utils.decorators import apply_defaults
 from airflow import DAG
 from datetime import date, timedelta, datetime
@@ -21,7 +20,7 @@ default_args = {
 with DAG('dag_main', default_args=default_args, description='DAG to trigger a Lambda function', schedule_interval='@daily',
                     start_date=datetime(2024, 5, 1), catchup=False) as dag:
 
-    payload = {"bucket_name": "aws-bix-aicollaborator", "file_path": "template_example.csv"}
+    payload = {"bucket_name": "argo-data-lake", "file_path": "unvalidated/template_example.csv"}
                         
     trigger_lambda = TriggerLambdaOperator(
         task_id='trigger_lambda_task',
@@ -30,3 +29,4 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     )
 
     ( trigger_lambda )
+    
