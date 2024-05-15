@@ -25,7 +25,7 @@ def get_data(bucket_name, file_path):
 def validate_data(data):
 
     # Structure Columns
-    UserID = "Respondent_ID"
+    UserID = "RespondentID"
     DateTime = "Timestamp"
     ContentID = "Content"
     Survey = "Survey"
