@@ -6,3 +6,5 @@ requests
 great_expectations
 pandas
 boto3
+sqlalchemy
+io
