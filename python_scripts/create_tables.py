@@ -104,9 +104,9 @@ def create_tables(dbname, user, password, host, port):
 
 # Example usage
 create_tables(
-    dbname='new_database',  # Name of the database to connect to
-    user='your_username',   # Your database username
-    password='your_password', # Your database password
-    host='localhost',       # Database host
-    port='5432'             # Database port
+    dbname='structured',
+    user='test_admin',
+    password='test_password',
+    host='db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com',
+    port='5432'
 )
