@@ -1,13 +1,8 @@
 datetime
 PyYAML
 pendulum
-sqlalchemy
 psycopg2-binary
 requests
-mysql
-pandasql
+great_expectations
 pandas
-python-box
-mysql-connector-python
-concurrent
 boto3
