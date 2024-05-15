@@ -3,7 +3,7 @@ from airflow import DAG
 from datetime import date, timedelta, datetime
 import boto3
 from functions.class_lambda_trigger import TriggerLambdaOperator
-from functions.class_data_ingestion import TriggerLambdaOperator
+from functions.class_data_ingestion import InsertStructuredData
 
 
 
