@@ -40,7 +40,7 @@ class InsertStructuredData(BaseOperator):
                     file_path: str,
                     *args,
                     **kwargs):
-        super(ValidateInputtedData, self).__init__(*args, **kwargs)
+        super(InsertStructuredData, self).__init__(*args, **kwargs)
         self.bucket_name = bucket_name
         self.file_path = file_path
     
@@ -57,6 +57,6 @@ class InsertStructuredData(BaseOperator):
   
           return True
           
-        except e:
+        except Exception as e:
           print(e)
           return False
