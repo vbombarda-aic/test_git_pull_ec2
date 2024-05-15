@@ -3,6 +3,7 @@ from airflow import DAG
 from datetime import date, timedelta, datetime
 import boto3
 from functions.class_lambda_trigger import TriggerLambdaOperator
+from functions.class_data_ingestion import TriggerLambdaOperator
 
 
 
@@ -28,5 +29,11 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
         payload=payload
     )
 
-    ( trigger_lambda )
+    ingest_airflow = InsertStructuredData(
+        task_id='insertion_task',
+        bucket_name = payload['bucket_name'],
+        file_path = payload['file_path']
+    )
+    
+    ( trigger_lambda >> ingest_airflow )
     
