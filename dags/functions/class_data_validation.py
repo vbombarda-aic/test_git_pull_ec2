@@ -3,7 +3,6 @@ from airflow.utils.decorators import apply_defaults
 import json
 import boto3
 import pandas as pd
-import great_expectations as ge
 from io import StringIO
 from function_data_validation import get_data, validate_data
 
