@@ -14,7 +14,7 @@ print("Connection successful")
 
 db_name = "structured"
 try:
-cursor.execute(sql.SQL(f"CREATE DATABASE {db_name}"))
+  cursor.execute(sql.SQL(f"CREATE DATABASE {db_name}"))
   print(f"{db_name} successfully created!")
 except:
   print("Error creating {db_name} database.")
