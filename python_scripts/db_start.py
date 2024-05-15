@@ -3,6 +3,7 @@ from psycopg2 import sql
 
 conn = psycopg2.connect(
             host="db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com",
+            dbname="postgres",
             user="test_admin",
             password="test_password",
             port=5432)
