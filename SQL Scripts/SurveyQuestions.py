@@ -14,7 +14,7 @@ cur.execute('''
 MERGE INTO
     SurveyQuestions AS A
 USING (
-    SELECT DISTINCT "Survey", "variable" AS Question
+    SELECT DISTINCT "Survey", "variable" AS Question,
             CONCAT_WS('_', "Survey", "variable") AS mergeKey
 
     FROM temporary_table
