@@ -15,7 +15,7 @@ DB_PASSWORD = 'test_password'
 DB_PORT = '5432'
 TABLE_NAME = 'temporary_table'
 
-UserID = "RespondentID"
+UserID = "Respondent_ID"
 DateTime = "Timestamp"
 ContentID = "Content"
 Survey = "Survey"
@@ -45,18 +45,18 @@ class InsertStructuredData(BaseOperator):
         self.file_path = file_path
     
     def execute(self, context):
-        try:
-          df = get_data(self.bucket_name, self.file_path)
-          df = df.melt([UserID, DateTime, ContentID, Survey])
-  
-          engine = create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
-  
-          print("engine created")
-          create_table_and_insert_data(df, engine, TABLE_NAME)
-          print("table created")
-  
-          return True
+        # try:
+      df = get_data(self.bucket_name, self.file_path)
+      df = df.melt([UserID, DateTime, ContentID, Survey])
+
+      engine = create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+
+      print("engine created")
+      create_table_and_insert_data(df, engine, TABLE_NAME)
+      print("table created")
+
+      return True
           
-        except Exception as e:
-          print(e)
-          return False
+        # except Exception as e:
+        #   print(e)
+        #   return False
