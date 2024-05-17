@@ -4,7 +4,7 @@ import psycopg2
 sql_script = """
 CREATE TABLE Content (
     ContentID serial  NOT NULL,
-    Content text  NOT NULL,
+    Content text  NOT NULL UNIQUE,
     CONSTRAINT Content_pk PRIMARY KEY (ContentID, Content)
 );
 
