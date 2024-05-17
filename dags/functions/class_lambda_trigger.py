@@ -29,7 +29,7 @@ class TriggerLambdaOperator(BaseOperator):
         if response['StatusCode'] == 200:
             self.log.info("Lambda function triggered successfully. Response:")
             # response_payload = response['Payload'].read().decode('utf-8')
-            response_payload = json.load(response['Payload'])
+            response_payload = json.loads(response['Payload'].read())
             print(response_payload)
         else:
             self.log.error("Error triggering Lambda function: %s", response)
