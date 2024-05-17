@@ -20,6 +20,8 @@ class TriggerLambdaOperator(BaseOperator):
         # Create a Lambda client
         client = boto3.client('lambda',
                               region_name=self.aws_region_name)
+        execution_date = context['execution_date']
+        self.payload["current_timestamp"] = execution_date.strftime('%Y-%m-%dT%H:%M:%S')
         
         # Trigger the Lambda function
         response = client.invoke(FunctionName=self.lambda_function_name,
