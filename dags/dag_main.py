@@ -24,8 +24,7 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
                     start_date=datetime(2024, 5, 1), catchup=False) as dag:
     
     payload = {"bucket_name": "argo-data-lake",
-               "file_path": "unvalidated/data_example.csv",
-               "current_timestamp": current_timestamp} # to create folder in raw !
+               "file_path": "unvalidated/data_example.csv"}
                         
     trigger_lambda = TriggerLambdaOperator(
         task_id='trigger_lambda_task',
@@ -36,7 +35,7 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     ingest_airflow = InsertStructuredData(
         task_id='insertion_task',
         bucket_name = "argo-data-lake",
-        file_path = "raw/" + payload["current_timestamp"] + "/processed_file.csv",
+        file_path = "raw/processed_file.csv",
         
     )
     
