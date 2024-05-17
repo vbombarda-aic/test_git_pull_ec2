@@ -15,7 +15,7 @@ DB_PASSWORD = 'test_password'
 DB_PORT = '5432'
 TABLE_NAME = 'temporary_table'
 
-UserID = "Respondent_ID"
+UserID = "RespondentID"
 DateTime = "Timestamp"
 ContentID = "Content"
 Survey = "Survey"
