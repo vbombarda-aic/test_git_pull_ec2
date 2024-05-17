@@ -21,7 +21,7 @@ default_args = {
 with DAG('dag_main', default_args=default_args, description='DAG to trigger a Lambda function', schedule_interval='@daily',
                     start_date=datetime(2024, 5, 1), catchup=False) as dag:
 
-    current_timestamp = f'{datetime.now():%Y-%m-%dT%H:%M:%S}'
+    current_timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%S') # f'{datetime.now():%Y-%m-%dT%H:%M:%S}'
     payload = {"bucket_name": "argo-data-lake",
                "file_path": "unvalidated/data_example.csv",
                "current_timestamp": current_timestamp} # to create folder in raw !
