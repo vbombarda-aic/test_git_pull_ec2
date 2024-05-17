@@ -15,7 +15,7 @@ DB_PASSWORD = 'test_password'
 DB_PORT = '5432'
 TABLE_NAME = 'temporary_table'
 
-UserID = "Respondent_ID"
+UserID = "RespondentID"
 DateTime = "Timestamp"
 ContentID = "Content"
 Survey = "Survey"
@@ -45,7 +45,6 @@ class InsertStructuredData(BaseOperator):
         self.file_path = file_path
     
     def execute(self, context):
-        # try:
       df = get_data(self.bucket_name, self.file_path)
       df = df.melt([UserID, DateTime, ContentID, Survey])
 
@@ -57,6 +56,3 @@ class InsertStructuredData(BaseOperator):
 
       return True
           
-        # except Exception as e:
-        #   print(e)
-        #   return False
