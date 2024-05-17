@@ -22,7 +22,7 @@ CREATE TABLE Experience (
 CREATE TABLE Survey (
     SurveyID serial  NOT NULL,
     SurveyName text  NOT NULL,
-    CONSTRAINT Survey_pk PRIMARY KEY (SurveyID)
+    CONSTRAINT Survey_pk PRIMARY KEY (SurveyID, SurveyName)
 );
 
 -- Table: SurveyAnswers
@@ -35,10 +35,10 @@ CREATE TABLE SurveyAnswers (
 
 -- Table: SurveyQuestions
 CREATE TABLE SurveyQuestions (
-    SurveyID serial  NOT NULL,
+    Survey text  NOT NULL,
     QuestionID serial  NOT NULL,
     Question text  NOT NULL,
-    QuestionDescription text  NOT NULL,
+    QuestionDescription text  NULL,
     CONSTRAINT SurveyQuestions_pk PRIMARY KEY (QuestionID)
 );
 
@@ -69,8 +69,8 @@ ALTER TABLE SurveyAnswers ADD CONSTRAINT SurveyAnswers_SurveyQuestions
 
 -- Reference: SurveyQuestions_Survey (table: SurveyQuestions)
 ALTER TABLE SurveyQuestions ADD CONSTRAINT SurveyQuestions_Survey
-    FOREIGN KEY (SurveyID)
-    REFERENCES Survey (SurveyID)  
+    FOREIGN KEY (Survey)
+    REFERENCES Survey (Survey)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
