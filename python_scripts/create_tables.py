@@ -5,7 +5,7 @@ sql_script = """
 CREATE TABLE Content (
     ContentID serial  NOT NULL,
     Content text  NOT NULL,
-    CONSTRAINT Content_pk PRIMARY KEY (ContentID)
+    CONSTRAINT Content_pk PRIMARY KEY (ContentID, Content)
 );
 
 -- Table: Experience
