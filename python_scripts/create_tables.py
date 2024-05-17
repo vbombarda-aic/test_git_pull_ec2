@@ -21,8 +21,8 @@ CREATE TABLE Experience (
 -- Table: Survey
 CREATE TABLE Survey (
     SurveyID serial  NOT NULL,
-    SurveyName text  NOT NULL,
-    CONSTRAINT Survey_pk PRIMARY KEY (SurveyID, SurveyName)
+    Survey text  NOT NULL,
+    CONSTRAINT Survey_pk PRIMARY KEY (SurveyID, Survey)
 );
 
 -- Table: SurveyAnswers
