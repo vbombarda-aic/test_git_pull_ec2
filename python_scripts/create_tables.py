@@ -14,7 +14,7 @@ CREATE TABLE Experience (
     RespondentID text  NOT NULL,
     Timestamp timestamp  NOT NULL,
     Survey text  NOT NULL,
-    Content int  NOT NULL,
+    Content text  NOT NULL,
     CONSTRAINT Experience_pk PRIMARY KEY (ExperienceID)
 );
 
