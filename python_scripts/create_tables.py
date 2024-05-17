@@ -4,7 +4,7 @@ import psycopg2
 sql_script = """
 CREATE TABLE Content (
     ContentID serial  NOT NULL,
-    ContentName text  NOT NULL,
+    Content text  NOT NULL,
     CONSTRAINT Content_pk PRIMARY KEY (ContentID)
 );
 
@@ -14,7 +14,7 @@ CREATE TABLE Experience (
     RespondentID text  NOT NULL,
     Timestamp timestamp  NOT NULL,
     Survey text  NOT NULL,
-    ContentID int  NOT NULL,
+    Content int  NOT NULL,
     CONSTRAINT Experience_pk PRIMARY KEY (ExperienceID)
 );
 
@@ -45,8 +45,8 @@ CREATE TABLE SurveyQuestions (
 -- foreign keys
 -- Reference: Experience_Content (table: Experience)
 ALTER TABLE Experience ADD CONSTRAINT Experience_Content
-    FOREIGN KEY (ContentID)
-    REFERENCES Content (ContentID)  
+    FOREIGN KEY (Content)
+    REFERENCES Content (Content)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
