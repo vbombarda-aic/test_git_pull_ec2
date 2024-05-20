@@ -25,7 +25,7 @@ ON CONCAT_WS('_', A.Survey, A.Question) = B.mergeKey
 
 WHEN NOT MATCHED
 THEN INSERT ("survey", "question")
-VALUES (B."Survey", B."Question");
+VALUES (B."Survey", b."question");
 
 ''')
 conn.commit()
