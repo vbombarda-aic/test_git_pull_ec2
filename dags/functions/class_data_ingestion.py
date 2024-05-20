@@ -49,7 +49,7 @@ class InsertStructuredData(BaseOperator):
     def execute(self, context):
       execution_date = context['execution_date'].strftime('%Y-%m-%dT%H:%M:%S')
       file_path_split = self.file_path.split("/")
-      enriched_file_path = file_path_split[0] + "/" + str(execution_date) + "/" + file_path_split[1]
+      enriched_file_path = file_path_split[0] + "/survey_data/" + str(execution_date) + "/" + file_path_split[1]
       df = get_data(self.bucket_name, enriched_file_path)
       df = df.melt([UserID, DateTime, ContentID, Survey])
 
