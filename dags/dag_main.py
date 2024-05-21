@@ -47,7 +47,7 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     )
     content_table = PostgresQueryOperator(
     task_id='content_table_ingestion',
-    sql='sql/content.sql',
+    sql_file_path='sql/content.sql',
     db_credentials=db_credentials
 )
     
