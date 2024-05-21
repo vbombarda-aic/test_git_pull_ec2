@@ -4,7 +4,7 @@ from airflow import DAG
 from datetime import date, timedelta, datetime
 import boto3
 from functions.class_query_db import PostgresQueryOperator
-from functions.class_print_xcom import PrintXCom
+from functions.class_lambda_trigger import TriggerLambdaOperator
 
 # Database connection details
 db_credentials = {
@@ -25,15 +25,16 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
-sql_script = '''
-SELECT DISTINCT "content" FROM Content
-'''
+file_name = 'content_names'
+sql_file_path = os.path.join(dag_directory, f'sql/{file_name}.sql')
+with open(sql_file_path, 'r') as file:
+    sql_script = file.read()
 
 # Define the DAG
 with DAG('dag_api_calls', default_args=default_args, description='DAG to trigger a Lambda function and ingest API data', schedule_interval='@daily',
                     start_date=datetime(2024, 5, 1), catchup=False) as dag:
 
-    payload = {"bucket_name": "aws-bix-aicollaborator", "file_path": "template_example.csv"}
+    payload = {'bucket_name': 'aws-bix-aicollaborator', 'file_path': 'raw/api/'}
 
       
     content_table = PostgresQueryOperator(
@@ -42,10 +43,14 @@ with DAG('dag_api_calls', default_args=default_args, description='DAG to trigger
         db_credentials=db_credentials
     )
 
-    print_content = PrintXCom(
-        task_id='print_content_names',
-        name="Airflow"
+    trigger_lambda = TriggerLambdaOperator(
+        task_id='trigger_lambda_api_calls',
+        lambda_function_name='lambda_api_calls',
+        payload=payload,
+        extract_xcom=True,
+        task_ids='retrieve_content_names',
+        key='postgres_query_result'
     )
 
-    ( content_table >> print_content )
+    ( content_table >> trigger_lambda )
 
