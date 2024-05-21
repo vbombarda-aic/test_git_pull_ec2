@@ -75,8 +75,7 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     )
     example_trigger = TriggerDagRunOperator(
       task_id="get_api_content",
-      trigger_dag_id="dag_example",
-      conf={"name": "Outro nome"}
+      trigger_dag_id="dag_api_calls"
     )
     
     ( validate_task >> ingest_task >> content_table >> example_trigger)
