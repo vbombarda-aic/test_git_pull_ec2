@@ -1,4 +1,5 @@
 from airflow.utils.decorators import apply_defaults
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow import DAG
 from datetime import date, timedelta, datetime
 import boto3
@@ -68,10 +69,15 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
         file_path="raw/processed_file.csv"
     )
     content_table = PostgresQueryOperator(
-    task_id='content_table_ingestion',
-    sql_query=sql_script,
-    db_credentials=db_credentials
-)
+        task_id='content_table_ingestion',
+        sql_query=sql_script,
+        db_credentials=db_credentials
+    )
+    example_trigger = TriggerDagRunOperator(
+      task_id="get_api_content",
+      trigger_dag_id="dag_example",
+      conf={"name": "Outro nome"}
+    )
     
     ( validate_task >> ingest_task >> content_table)
     
