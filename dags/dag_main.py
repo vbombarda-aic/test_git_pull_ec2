@@ -27,31 +27,20 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
+def get_sql_file(file_name):
+    content_file_path = os.path.join(dag_directory, f'sql/{file_name}.sql')
+    with open(sql_file_path, 'r') as file:
+        return sql_script = file.read()
+
 
 # Get the directory of the current script file (the DAG file)
 dag_directory = os.path.dirname(os.path.abspath(__file__))
-sql_file_path = os.path.join(dag_directory, 'sql/content.sql')
-with open(sql_file_path, 'r') as file:
-    sql_script = file.read()
-    
-# sql_script = '''
-# MERGE INTO
-#     Content AS A
-# USING (
-#     SELECT DISTINCT "Content",
-#             CONCAT_WS('_', "Content") AS mergeKey
 
-#     FROM temporary_table
-# sql_file_path = 'sql/content.sql'
-# with open(sql_file_path, 'r') as file:
-#     sql_script = file.read()
-
-# ) B
-# ON CONCAT_WS('_', A.Content) = B.mergeKey
-# WHEN NOT MATCHED
-# THEN INSERT ("content")
-# VALUES (B."Content");
-# '''
+content_sql = get_sql_file('content')
+experience_sql = get_sql_file('experience')
+survey_sql = get_sql_file('survey')
+surveyquestions_sql = get_sql_file('surveyquestions')
+surveyanswers_sql = get_sql_file('surveyanswers')
 
 current_timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%S') # f'{datetime.now():%Y-%m-%dT%H:%M:%S}'
 
@@ -73,15 +62,52 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
         bucket_name="argo-data-lake",
         file_path="raw/processed_file.csv"
     )
+                        
+    ## SQL commands to populate the tables
+    # Content
     content_table = PostgresQueryOperator(
-        task_id='content_table_ingestion',
-        sql_query=sql_script,
+        task_id='content_table',
+        sql_query=content_sql,
         db_credentials=db_credentials
     )
+
+    # Experience
+    experience_table = PostgresQueryOperator(
+        task_id='experience_table',
+        sql_query=experience_sql,
+        db_credentials=db_credentials
+    )
+
+    # Survey
+    survey_table = PostgresQueryOperator(
+        task_id='survey_table',
+        sql_query=survey_sql,
+        db_credentials=db_credentials
+    )
+
+    # Survey Questions
+    surveyquestions_table = PostgresQueryOperator(
+        task_id='surveyquestions_table',
+        sql_query=surveyquestions_sql,
+        db_credentials=db_credentials
+    )
+
+    # Survey Answers
+    surveyanswers_table = PostgresQueryOperator(
+        task_id='surveyanswers_table',
+        sql_query=surveyanswers_sql,
+        db_credentials=db_credentials
+    )
+
+    ## Trigger a differente DAG pipeline
     example_trigger = TriggerDagRunOperator(
       task_id="get_api_content",
       trigger_dag_id="dag_api_calls"
     )
     
-    ( validate_task >> ingest_task >> content_table >> example_trigger)
+    validate_task >> ingest_task
+    ingest_task   >> content_table
+    ingest_task   >> survey_table >> surveyquestions_table
+    [content_table, surveyquestions_table] >> surveyanswers_table
+    surveyanswers_table >> example_trigger
     
