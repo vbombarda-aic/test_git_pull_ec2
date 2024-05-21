@@ -27,7 +27,7 @@ default_args = {
 }
 
 
-sql_file_path = 'sql/content.sql'
+sql_file_path = './sql/content.sql'
 with open(sql_file_path, 'r') as file:
     sql_script = file.read()
 
