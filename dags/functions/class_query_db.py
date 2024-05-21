@@ -35,6 +35,15 @@ class PostgresQueryOperator(BaseOperator):
             # Execute the SQL query
             cursor.execute(self.sql_query)
             conn.commit()
+            
+            # If there is something to return
+            try:
+                result = cursor.fetchall()
+                context['ti'].xcom_push(key='postgres_query_result', value=result) # Push the result to XCom
+                self.log.info(f"Results fetched and returned to XCom.")
+            except Exception as e:
+                self.log.info(f"Nothing to fetch.")
+                
         except Exception as e:
             conn.rollback()
             self.log.error(f"Error executing query: {e}")
