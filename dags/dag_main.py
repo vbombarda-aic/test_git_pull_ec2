@@ -3,6 +3,7 @@ from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow import DAG
 from datetime import date, timedelta, datetime
 import boto3
+import os
 from functions.class_lambda_trigger import TriggerLambdaOperator
 from functions.class_data_ingestion import InsertStructuredData
 from functions.class_query_db import PostgresQueryOperator
@@ -27,27 +28,30 @@ default_args = {
 }
 
 
-# sql_file_path = './sql/content.sql'
-# with open(sql_file_path, 'r') as file:
-#     sql_script = file.read()
-sql_script = '''
-MERGE INTO
-    Content AS A
-USING (
-    SELECT DISTINCT "Content",
-            CONCAT_WS('_', "Content") AS mergeKey
-
-    FROM temporary_table
-sql_file_path = 'sql/content.sql'
+# Get the directory of the current script file (the DAG file)
+dag_directory = os.path.dirname(os.path.abspath(__file__))
+sql_file_path = os.path.join(dag_directory, 'sql/content.sql')
 with open(sql_file_path, 'r') as file:
     sql_script = file.read()
+    
+# sql_script = '''
+# MERGE INTO
+#     Content AS A
+# USING (
+#     SELECT DISTINCT "Content",
+#             CONCAT_WS('_', "Content") AS mergeKey
 
-) B
-ON CONCAT_WS('_', A.Content) = B.mergeKey
-WHEN NOT MATCHED
-THEN INSERT ("content")
-VALUES (B."Content");
-'''
+#     FROM temporary_table
+# sql_file_path = 'sql/content.sql'
+# with open(sql_file_path, 'r') as file:
+#     sql_script = file.read()
+
+# ) B
+# ON CONCAT_WS('_', A.Content) = B.mergeKey
+# WHEN NOT MATCHED
+# THEN INSERT ("content")
+# VALUES (B."Content");
+# '''
 
 current_timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%S') # f'{datetime.now():%Y-%m-%dT%H:%M:%S}'
 
