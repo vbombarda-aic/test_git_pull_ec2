@@ -4,8 +4,15 @@ from datetime import date, timedelta, datetime
 import boto3
 from functions.class_lambda_trigger import TriggerLambdaOperator
 from functions.class_data_ingestion import InsertStructuredData
+from airflow.operators.postgres_operator import PostgresOperator
 
-
+# Database connection details
+DB_HOST = 'db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com'
+DB_NAME = 'structured'
+DB_USER = 'test_admin'
+DB_PASSWORD = 'test_password'
+DB_PORT = '5432'
+TABLE_NAME = 'temporary_table'
 
 # Define the default arguments for the DAG
 default_args = {
@@ -18,6 +25,24 @@ default_args = {
 }
 
 current_timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%S') # f'{datetime.now():%Y-%m-%dT%H:%M:%S}'
+
+sql_query = '''
+MERGE INTO
+    Content AS A
+USING (
+    SELECT DISTINCT "Content",
+            CONCAT_WS('_', "Content") AS mergeKey
+
+    FROM temporary_table
+
+) B
+
+ON CONCAT_WS('_', A.Content) = B.mergeKey
+
+WHEN NOT MATCHED
+THEN INSERT ("content")
+VALUES (B."Content");
+'''
 
 # Define the DAG
 with DAG('dag_main', default_args=default_args, description='DAG to trigger a Lambda function', schedule_interval='@daily',
@@ -35,9 +60,19 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     ingest_task = InsertStructuredData(
         task_id='data_insertion_to_database',
         bucket_name = "argo-data-lake",
-        file_path = "raw/processed_file.csv",
-        
+        file_path = "raw/processed_file.csv"
     )
+    content_table = PostgresOperator(
+    task_id='content_table_ingestion',
+    postgres_conn_id=None,  # We will define the connection inline
+    sql=sql_query,
+    database=DB_NAME,
+    user=DB_USER,
+    password=DB_PASSWORD,
+    host=DB_HOST,
+    port=DB_PORT,
+    dag=dag
+)
     
-    ( validate_task >> ingest_task )
+    ( validate_task >> ingest_task >> content_table)
     
