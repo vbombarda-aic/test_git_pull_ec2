@@ -26,24 +26,6 @@ default_args = {
 
 current_timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%S') # f'{datetime.now():%Y-%m-%dT%H:%M:%S}'
 
-sql_query = '''
-MERGE INTO
-    Content AS A
-USING (
-    SELECT DISTINCT "Content",
-            CONCAT_WS('_', "Content") AS mergeKey
-
-    FROM temporary_table
-
-) B
-
-ON CONCAT_WS('_', A.Content) = B.mergeKey
-
-WHEN NOT MATCHED
-THEN INSERT ("content")
-VALUES (B."Content");
-'''
-
 # Define the DAG
 with DAG('dag_main', default_args=default_args, description='DAG to trigger a Lambda function', schedule_interval='@daily',
                     start_date=datetime(2024, 5, 1), catchup=False) as dag:
@@ -65,7 +47,7 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     content_table = PostgresOperator(
     task_id='content_table_ingestion',
     postgres_conn_id=None,  # We will define the connection inline
-    sql=sql_query,
+    sql='sql/content.sql',
     database=DB_NAME,
     user=DB_USER,
     password=DB_PASSWORD,
