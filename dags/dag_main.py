@@ -25,6 +25,11 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
+# Read the SQL script
+sql_file_path = 'sql/content.sql'
+with open(sql_file_path, 'r') as file:
+    sql_script = file.read()
+
 current_timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%S') # f'{datetime.now():%Y-%m-%dT%H:%M:%S}'
 
 # Define the DAG
@@ -47,7 +52,7 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     )
     content_table = PostgresQueryOperator(
     task_id='content_table_ingestion',
-    sql_file_path='../sql/content.sql',
+    sql_query=sql_script,
     db_credentials=db_credentials
 )
     
