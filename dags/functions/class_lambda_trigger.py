@@ -8,6 +8,9 @@ class TriggerLambdaOperator(BaseOperator):
     @apply_defaults
     def __init__(self, lambda_function_name: str,
                     payload: str,
+                    extract_xcom: bool = False,
+                    task_ids: str = "",
+                    key: str = "",
                     aws_region_name:str = 'us-east-1',
                     *args,
                     **kwargs):
@@ -15,6 +18,9 @@ class TriggerLambdaOperator(BaseOperator):
         self.lambda_function_name = lambda_function_name
         self.aws_region_name = aws_region_name
         self.payload = payload
+        self.extract_xcom = extract_xcom
+        self.task_ids = task_ids
+        self.key = key
 
     def execute(self, context):
         # Create a Lambda client
@@ -22,6 +28,11 @@ class TriggerLambdaOperator(BaseOperator):
                               region_name=self.aws_region_name)
         execution_date = context['execution_date']
         self.payload["current_timestamp"] = execution_date.strftime('%Y-%m-%dT%H:%M:%S')
+
+        if self.extract_xcom:
+            ti = context['ti']  # Access the task instance from the context
+            query_result = ti.xcom_pull(task_ids=self.task_ids, key=self.key)
+            self.payload["content_names"] = query_result
         
         # Trigger the Lambda function
         response = client.invoke(FunctionName=self.lambda_function_name,
