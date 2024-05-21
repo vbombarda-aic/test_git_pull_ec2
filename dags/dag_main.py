@@ -28,7 +28,7 @@ default_args = {
 }
 
 def get_sql_file(file_name):
-    content_file_path = os.path.join(dag_directory, f'sql/{file_name}.sql')
+    sql_file_path = os.path.join(dag_directory, f'sql/{file_name}.sql')
     with open(sql_file_path, 'r') as file:
         return file.read()
 
