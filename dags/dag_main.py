@@ -26,18 +26,18 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     payload = {"bucket_name": "argo-data-lake",
                "file_path": "unvalidated/data_example.csv"}
                         
-    trigger_lambda = TriggerLambdaOperator(
-        task_id='trigger_lambda_task',
+    validate_task = TriggerLambdaOperator(
+        task_id='data_validation_and_formatting',
         lambda_function_name='validate',
         payload=payload
     )
 
-    ingest_airflow = InsertStructuredData(
-        task_id='insertion_task',
+    ingest_task = InsertStructuredData(
+        task_id='data_insertion_to_database',
         bucket_name = "argo-data-lake",
         file_path = "raw/processed_file.csv",
         
     )
     
-    ( trigger_lambda >> ingest_airflow )
+    ( validate_task >> ingest_task )
     
