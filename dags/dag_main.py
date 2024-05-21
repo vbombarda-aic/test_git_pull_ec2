@@ -106,8 +106,8 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     )
     
     validate_task >> ingest_task
-    ingest_task   >> content_table
+    ingest_task   >> content_table >> experience_table 
     ingest_task   >> survey_table >> surveyquestions_table
-    [content_table, surveyquestions_table] >> surveyanswers_table
+    [experience_table , surveyquestions_table] >> surveyanswers_table
     surveyanswers_table >> example_trigger
     
