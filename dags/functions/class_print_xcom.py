@@ -17,7 +17,7 @@ class PrintXCom(BaseOperator):
     def execute(self, context):
       ti = kwargs['ti']
       query_result = ti.xcom_pull(task_ids='retrieve_content_names', key='postgres_query_result')
-      print("########################"
+      print("########################")
       print("Query result:", query_result)
-      print("########################"
+      print("########################")
       return True
