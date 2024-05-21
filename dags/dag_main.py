@@ -25,10 +25,27 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
-# Read the SQL script
-sql_file_path = 'sql/content.sql'
-with open(sql_file_path, 'r') as file:
-    sql_script = file.read()
+## Read the SQL script - PQ Não funciona??
+#sql_file_path = 'sql/content.sql'
+#with open(sql_file_path, 'r') as file:
+#sql_script = file.read()
+sql_script = '''
+MERGE INTO
+    Content AS A
+USING (
+    SELECT DISTINCT "Content",
+            CONCAT_WS('_', "Content") AS mergeKey
+
+    FROM temporary_table
+
+) B
+
+ON CONCAT_WS('_', A.Content) = B.mergeKey
+
+WHEN NOT MATCHED
+THEN INSERT ("content")
+VALUES (B."Content");
+'''
 
 current_timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%S') # f'{datetime.now():%Y-%m-%dT%H:%M:%S}'
 
