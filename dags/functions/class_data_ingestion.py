@@ -1,4 +1,4 @@
-from function_data_ingestion import get_data, create_table_and_insert_data
+from .function_data_ingestion import get_data, create_table_and_insert_data
 from sqlalchemy import create_engine, text
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
