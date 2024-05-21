@@ -79,5 +79,5 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
       conf={"name": "Outro nome"}
     )
     
-    ( validate_task >> ingest_task >> content_table)
+    ( validate_task >> ingest_task >> content_table >> example_trigger)
     
