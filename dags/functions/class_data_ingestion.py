@@ -36,6 +36,7 @@ class InsertStructuredData(BaseOperator):
       enriched_file_path = file_path_split[0] + "/survey_data/" + str(execution_date) + "/" + file_path_split[1]
       df = get_data(self.bucket_name, enriched_file_path)
       df = df.melt([UserID, DateTime, ContentID, Survey])
+      df = df.dropna()
 
       engine = create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
 
