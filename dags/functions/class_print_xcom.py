@@ -13,10 +13,10 @@ class PrintXCom(BaseOperator):
                     **kwargs):
         super(PrintXCom, self).__init__(*args, **kwargs)
         self.name = name
-        self.ti = kwargs['ti']
     
     def execute(self, context):
-      query_result = self.ti.xcom_pull(task_ids='retrieve_content_names', key='postgres_query_result')
+      ti = context['ti']  # Access the task instance from the context
+      query_result = ti.xcom_pull(task_ids='retrieve_content_names', key='postgres_query_result')
       print("########################")
       print("Query result:", query_result)
       print("########################")
