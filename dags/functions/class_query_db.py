@@ -42,4 +42,4 @@ class PostgresQueryOperator(BaseOperator):
         finally:
             cursor.close()
             conn.close()
-            self.log.info(f"Query executed successfully: {self.sql_file_path}")
+            self.log.info(f"Query executed successfully!")
