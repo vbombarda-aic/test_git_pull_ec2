@@ -46,8 +46,8 @@ with DAG('dag_api_calls', default_args=default_args, description='DAG to trigger
     )
 
     trigger_lambda = TriggerLambdaOperator(
-        task_id='trigger_lambda_api_calls',
-        lambda_function_name='lambda_api_calls',
+        task_id='trigger_content_api_calls',
+        lambda_function_name='content_api_calls',
         payload=payload,
         extract_xcom=True,
         task_ids='retrieve_content_names',
