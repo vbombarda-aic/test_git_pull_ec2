@@ -28,7 +28,7 @@ class InsertApiData(BaseOperator):
     
     def execute(self, context):
       execution_date = context['execution_date'].strftime('%Y-%m-%dT%H:%M:%S')
-      file_path_split = self.file_path + 'review_and_details/' + str(execution_date) + '/content.json'
+      file_path_split = self.file_path + 'review_and_details/' + str(execution_date) + '/1/content.json' # ITERATES THROUGH THE IDs IN THE 1 ! 
       data = get_data(self.bucket_name, file_path_split)
 
       # Open Critic Info
