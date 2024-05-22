@@ -27,6 +27,7 @@ default_args = {
 }
 
 file_name = 'content_names'
+dag_directory = os.path.dirname(os.path.abspath(__file__))
 sql_file_path = os.path.join(dag_directory, f'sql/{file_name}.sql')
 with open(sql_file_path, 'r') as file:
     sql_script = file.read()
