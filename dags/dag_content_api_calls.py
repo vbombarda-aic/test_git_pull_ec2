@@ -33,7 +33,7 @@ with open(sql_file_path, 'r') as file:
     sql_script = file.read()
 
 # Define the DAG
-with DAG('dag_api_calls', default_args=default_args, description='DAG to trigger a Lambda function and ingest API data', schedule_interval='@daily',
+with DAG('dag_content_api_calls', default_args=default_args, description='DAG to trigger a Lambda function and ingest API data', schedule_interval='@daily',
                     start_date=datetime(2024, 5, 1), catchup=False) as dag:
 
     payload = {'bucket_name': 'argo-data-lake', 'file_path': 'raw/api_data/'}
@@ -55,11 +55,10 @@ with DAG('dag_api_calls', default_args=default_args, description='DAG to trigger
     )
 
     transform_data = InsertApiData(
-        task_id = 'transform_n_export_data'
+        task_id = 'transform_n_export_data',
         bucket_name = 'argo-data-lake',
         file_path = 'raw/api_data/',
         db_credentials = db_credentials
     )
 
     ( content_table >> trigger_lambda >> transform_data )
-
