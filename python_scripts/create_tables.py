@@ -2,14 +2,14 @@ import psycopg2
 
 # SQL script to create tables and constraints
 sql_script = """
-CREATE TABLE Content (
+CREATE TABLE IF NOT EXISTS Content (
     ContentID serial  NOT NULL,
     Content text  NOT NULL UNIQUE,
     CONSTRAINT Content_pk PRIMARY KEY (ContentID, Content)
 );
 
 -- Table: Experience
-CREATE TABLE Experience (
+CREATE TABLE IF NOT EXISTS Experience (
     ExperienceID serial  NOT NULL,
     RespondentID text  NOT NULL,
     Timestamp timestamp  NOT NULL,
@@ -19,14 +19,14 @@ CREATE TABLE Experience (
 );
 
 -- Table: Survey
-CREATE TABLE Survey (
+CREATE TABLE IF NOT EXISTS Survey (
     SurveyID serial  NOT NULL,
     Survey text  NOT NULL UNIQUE,
     CONSTRAINT Survey_pk PRIMARY KEY (SurveyID, Survey)
 );
 
 -- Table: SurveyAnswers
-CREATE TABLE SurveyAnswers (
+CREATE TABLE IF NOT EXISTS SurveyAnswers (
     Answer text  NOT NULL,
     ExperienceID serial  NOT NULL,
     QuestionID serial  NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE SurveyAnswers (
 );
 
 -- Table: SurveyQuestions
-CREATE TABLE SurveyQuestions (
+CREATE TABLE IF NOT EXISTS SurveyQuestions (
     Survey text  NOT NULL,
     QuestionID serial  NOT NULL,
     Question text  NOT NULL,
