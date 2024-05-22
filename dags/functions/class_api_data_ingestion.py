@@ -35,10 +35,12 @@ class InsertApiData(BaseOperator):
       valueColumns = ['percentRecommended', 'numReviews', 'medianScore', 'topCriticScore','tier', 'description']
       arrayColumns = ['Companies', 'Genres']
       data_oc_info = transform_dict(data['oc_info'], data['id'], data['name'], valueColumns=valueColumns, arrayColumns=arrayColumns)
-
+      df_oc_info = pd.DataFrame(data_oc_info)  
+        
       # Open Critic Reviews
       valueColumns = ['score', 'language', 'publishedDate', 'snippet', 'externalUrl']
       data_oc_reviews = transform_dict(data['oc_reviews'], data['id'], data['name'], valueColumns=valueColumns)
+      df_oc_reviews = pd.DataFrame(data_oc_reviews)  
 
       # Steam Info
       valueColumns = ['short_description']
@@ -46,12 +48,15 @@ class InsertApiData(BaseOperator):
       game_id = list(data['steam_info'].keys())[0]
       data_steam_info = transform_dict(data['steam_info'][game_id]['data'], data['id'], data['name'],
                              valueColumns=valueColumns, arrayColumns=arrayColumns)
+      df_steam_info= pd.DataFrame(data_steam_info)
+    
       # Steam Reviews
       valueColumns = ['language', 'review', 'voted_up','votes_up','votes_funny', 'timestamp_created', 'timestamp_updated']
       data_steam_reviews = transform_dict(data['steam_reviews']['reviews'], data['id'], data['name'], valueColumns=valueColumns)
+      df_steam_reviews = pd.DataFrame(data_steam_reviews)
 
       ### FINISH
-      ##### Create a dataframe for each
+        
       ##### Proceed to ingest it into the Database
       
       # Database connection details
@@ -64,7 +69,7 @@ class InsertApiData(BaseOperator):
       engine = create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
 
       print("engine created")
-      create_table_and_insert_data(df, engine, TABLE_NAME)
+      create_table_and_insert_data(df_steam_info, engine, "steamInfo")
       print("table created")
 
       return True
