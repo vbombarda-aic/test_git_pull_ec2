@@ -3,6 +3,7 @@ from airflow.utils.decorators import apply_defaults
 from airflow import DAG
 from datetime import date, timedelta, datetime
 import boto3
+import os
 from functions.class_query_db import PostgresQueryOperator
 from functions.class_lambda_trigger import TriggerLambdaOperator
 
