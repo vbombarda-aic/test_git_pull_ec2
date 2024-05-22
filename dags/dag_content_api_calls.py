@@ -58,7 +58,7 @@ with DAG('dag_content_api_calls', default_args=default_args, description='DAG to
     transform_data = InsertApiData(
         task_id = 'transform_n_export_data',
         bucket_name = 'argo-data-lake',
-        file_path = 'raw/api_data/',
+        file_path = 'raw/api_data',
         db_credentials = db_credentials
     )
 
