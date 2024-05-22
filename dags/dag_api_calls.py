@@ -36,7 +36,7 @@ with open(sql_file_path, 'r') as file:
 with DAG('dag_api_calls', default_args=default_args, description='DAG to trigger a Lambda function and ingest API data', schedule_interval='@daily',
                     start_date=datetime(2024, 5, 1), catchup=False) as dag:
 
-    payload = {'bucket_name': 'aws-bix-aicollaborator', 'file_path': 'raw/api/'}
+    payload = {'bucket_name': 'aws-bix-aicollaborator', 'file_path': 'raw/api_data/'}
 
       
     content_table = PostgresQueryOperator(
