@@ -9,10 +9,11 @@ from io import StringIO
 
 def create_table_and_insert_data(df, engine, table_name): #, dtype):
     with engine.connect() as connection:
-        try:
-          df.head(0).to_sql(name=table_name, con=engine, index=False, if_exists='fail') #, dtype=dtype)
-        except:
-          pass
+        #try:
+          #df.head(0).to_sql(name=table_name, con=engine, index=False, if_exists='fail') #, dtype=dtype)
+        #except:
+          #pass
+        df.head(0).to_sql(name=table_name, con=engine, index=False, if_exists='replace')
         df.to_sql(name=table_name, con=engine, index=False, if_exists='append')
 
 def get_data(bucket_name, file_key):
