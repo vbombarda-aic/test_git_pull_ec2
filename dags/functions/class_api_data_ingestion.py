@@ -1,4 +1,4 @@
-from .function_data_ingestion import get_data, transform_dict
+from .function_data_ingestion import transform_dict
 from sqlalchemy import create_engine, text
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
@@ -12,6 +12,15 @@ def create_table_and_insert_data(df, engine, table_name, dtype):
         except:
           pass
         df.to_sql(name=table_name, con=engine, index=False, if_exists='append')
+
+def get_data(bucket_name, file_key):
+    session = boto3.Session()
+    s3 = session.client('s3')
+    print('bucket_name ', bucket_name)
+    print('file_key ', file_key)
+    obj = s3.get_object(Bucket=bucket_name, Key=file_key)
+    data = obj['Body'].read().decode('utf-8')
+    return data
 
 class InsertApiData(BaseOperator):
 
