@@ -6,6 +6,7 @@ import boto3
 import os
 from functions.class_query_db import PostgresQueryOperator
 from functions.class_lambda_trigger import TriggerLambdaOperator
+from functions.class_api_data_ingestion import InsertApiData
 
 # Database connection details
 db_credentials = {
