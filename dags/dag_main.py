@@ -102,7 +102,7 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     ## Trigger a differente DAG pipeline
     example_trigger = TriggerDagRunOperator(
       task_id="get_api_content",
-      trigger_dag_id="dag_api_calls"
+      trigger_dag_id="dag_content_api_calls"
     )
     
     validate_task >> ingest_task
