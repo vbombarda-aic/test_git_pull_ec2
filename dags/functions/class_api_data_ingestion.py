@@ -3,7 +3,9 @@ from sqlalchemy import create_engine, text
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 import json
+import boto3
 import pandas as pd
+from io import StringIO
 
 def create_table_and_insert_data(df, engine, table_name, dtype):
     with engine.connect() as connection:
