@@ -19,9 +19,15 @@ def create_table_and_insert_data(df, engine, table_name):
         df.head(0).to_sql(name=table_name, con=engine, index=False, if_exists='replace')
         df.to_sql(name=table_name, con=engine, index=False, if_exists='append')
 
-
+def formatDictionary(dictionary, expected_keys):
+    for key in expected_keys:
+        if key not in list(dictionary.keys()):
+            dictionary[key] = None
+    return dictionary
+    
 def transform_dict(data: dict or list, data_id, data_name: str, valueColumns: list = [], arrayColumns:list = []):
     if type(data) == dict:
+        data = formatDictionary(data, valueColumns + arrayColumns)
         # Selects only the interested Columns
         data = {key: data[key] for key in valueColumns + arrayColumns}
         
@@ -40,6 +46,7 @@ def transform_dict(data: dict or list, data_id, data_name: str, valueColumns: li
         result_list = []
         for review in data:
             # Selects only the interested Columns
+            review = formatDictionary(review, valueColumns + arrayColumns)
             final_dict = {key: review[key] for key in valueColumns + arrayColumns}
             
             # Transform dictionries into lists
