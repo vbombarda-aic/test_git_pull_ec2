@@ -102,7 +102,7 @@ class InsertApiData(BaseOperator):
       print('table created')
       print('Testing to see if it worked:')
       with engine.connect() as con:
-          results = con.execute(text('SELECT * FROM 'steamInfo''))
+          results = con.execute(text('SELECT * FROM steamInfo'))
           print(results.first()[0])
 
       return True
