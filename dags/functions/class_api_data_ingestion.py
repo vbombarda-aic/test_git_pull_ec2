@@ -49,7 +49,7 @@ class InsertApiData(BaseOperator):
       valueColumns = ['percentRecommended', 'numReviews', 'medianScore', 'topCriticScore','tier', 'description']
       arrayColumns = ['Companies', 'Genres']
       data_oc_info = transform_dict(data['oc_info'], data['id'], data['name'], valueColumns=valueColumns, arrayColumns=arrayColumns)
-      sql_oc_info = create_script_table("openCriticInfo", valueColumns, arrayColumns)
+      sql_oc_info = create_script_table('openCriticInfo', valueColumns, arrayColumns)
       ## Create and format Dataframe
       df_oc_info = pd.DataFrame(data_oc_info)
       for column in arrayColumns:
@@ -61,7 +61,7 @@ class InsertApiData(BaseOperator):
       arrayColumns = []
       data_oc_reviews = transform_dict(data['oc_reviews'], data['id'], data['name'], valueColumns=valueColumns)
       df_oc_reviews = pd.DataFrame(data_oc_reviews)
-      sql_oc_reviews = create_script_table("openCriticReviews", valueColumns, arrayColumns)
+      sql_oc_reviews = create_script_table('openCriticReviews', valueColumns, arrayColumns)
 
       # Steam Info
       valueColumns = ['short_description']
@@ -69,7 +69,7 @@ class InsertApiData(BaseOperator):
       game_id = list(data['steam_info'].keys())[0]
       data_steam_info = transform_dict(data['steam_info'][game_id]['data'], data['id'], data['name'],
                              valueColumns=valueColumns, arrayColumns=arrayColumns)
-      sql_steam_info = create_script_table("steamInfo", valueColumns, arrayColumns)
+      sql_steam_info = create_script_table('steamInfo', valueColumns, arrayColumns)
       ## Create and format Dataframe
       df_steam_info = pd.DataFrame(data_steam_info)
       for column in arrayColumns:
@@ -80,29 +80,29 @@ class InsertApiData(BaseOperator):
       arrayColumns = []
       data_steam_reviews = transform_dict(data['steam_reviews']['reviews'], data['id'], data['name'], valueColumns=valueColumns)
       df_steam_reviews = pd.DataFrame(data_steam_reviews)
-      sql_steam_reviews = create_script_table("steamReviews", valueColumns, arrayColumns)
+      sql_steam_reviews = create_script_table('steamReviews', valueColumns, arrayColumns)
 
       ### FINISH
         
       ##### Proceed to ingest it into the Database
       
       # Database connection details
-      DB_HOST = self.db_credentials["DB_HOST"]
-      DB_NAME = self.db_credentials["DB_NAME"]
-      DB_USER = self.db_credentials["DB_USER"]
-      DB_PASSWORD = self.db_credentials["DB_PASSWORD"]
-      DB_PORT = self.db_credentials["DB_PORT"]
+      DB_HOST = self.db_credentials['DB_HOST']
+      DB_NAME = self.db_credentials['DB_NAME']
+      DB_USER = self.db_credentials['DB_USER']
+      DB_PASSWORD = self.db_credentials['DB_PASSWORD']
+      DB_PORT = self.db_credentials['DB_PORT']
       # TABLE_NAME = 'temporary_table' - MULTIPLE different tables !!!
       engine = create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
 
-      print("engine created")
+      print('engine created')
       with engine.connect() as con:
           con.execute(text(sql_steam_info))
-      table_insert_data(df_steam_info, engine, "steamInfo")
-      print("table created")
-      print("Testing to see if it worked:")
+      table_insert_data(df_steam_info, engine, 'steamInfo')
+      print('table created')
+      print('Testing to see if it worked:')
       with engine.connect() as con:
-          results = con.execute(text('SELECT * FROM "steamInfo"'))
+          results = con.execute(text('SELECT * FROM 'steamInfo''))
           print(results.first()[0])
 
       return True
