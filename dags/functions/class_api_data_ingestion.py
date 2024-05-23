@@ -58,6 +58,7 @@ class InsertApiData(BaseOperator):
           df_oc_info["insertion_date"] = execution_date
           for column in arrayColumns:
               df_oc_info[column] = df_oc_info[column].apply(lambda x: '{' + ','.join(x) + '}')
+          df_oc_info.columns = df_oc_info.columns.str.lower()
           
             
           # Open Critic Reviews
@@ -68,6 +69,7 @@ class InsertApiData(BaseOperator):
           ## Create and format Dataframe
           df_oc_reviews = pd.DataFrame(data_oc_reviews)
           df_oc_reviews["insertion_date"] = execution_date
+          df_oc_reviews.columns = df_oc_reviews.columns.str.lower()
     
           # Steam Info
           valueColumns = ['short_description']
@@ -81,6 +83,7 @@ class InsertApiData(BaseOperator):
           df_steam_info["insertion_date"] = execution_date
           for column in arrayColumns:
               df_steam_info[column] = df_steam_info[column].apply(lambda x: '{' + ','.join(x) + '}')
+          df_steam_info.columns = df_steam_info.columns.str.lower()
         
           # Steam Reviews
           valueColumns = ['language', 'review', 'voted_up','votes_up','votes_funny', 'timestamp_created', 'timestamp_updated']
@@ -90,6 +93,7 @@ class InsertApiData(BaseOperator):
           ## Create and format Dataframe
           df_steam_reviews = pd.DataFrame(data_steam_reviews)
           df_steam_reviews["insertion_date"] = execution_date
+          df_steam_reviews.columns = df_steam_reviews.columns.str.lower()
             
           
           # Database connection details
