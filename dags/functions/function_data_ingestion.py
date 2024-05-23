@@ -77,3 +77,30 @@ def create_script_table(table_name, valueColumns, arrayColumns):
         Insertion_date timestamp NOT NULL,
         CONSTRAINT {table_name}_pk PRIMARY KEY (Insertion_date, ID, Name)
          );'''
+
+
+def list_s3_contents(bucket_name, folder_name):
+    # Create a session using default credentials and configuration
+    session = boto3.Session()
+    s3 = session.client('s3')
+
+    # Initialize the paginator for listing objects
+    paginator = s3.get_paginator('list_objects_v2')
+
+    # List all objects in the specified bucket and folder
+    response_iterator = paginator.paginate(Bucket=bucket_name, Prefix=folder_name)
+
+    folders = []
+    files = []
+
+    for response in response_iterator:
+        if 'Contents' in response:
+            for obj in response['Contents']:
+                key = obj['Key']
+
+                # If the key ends with '/', it's a folder
+                if key.endswith('/'):
+                    folders.append(key)
+                else:
+                    files.append(key)
+    return folders, files
