@@ -14,7 +14,7 @@ def table_insert_data(df, engine, table_name): #, dtype):
         #except:
           #pass
         # df.head(0).to_sql(name=table_name, con=engine, index=False, if_exists='replace')
-        df.to_sql(name=table_name, con=engine, index=False, if_exists='append')
+        df.to_sql(name=table_name.lower(), con=engine, index=False, if_exists='append')
 
 def get_data(bucket_name, file_key):
     session = boto3.Session()
