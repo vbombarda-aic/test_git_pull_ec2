@@ -71,9 +71,9 @@ class InsertApiData(BaseOperator):
                              valueColumns=valueColumns, arrayColumns=arrayColumns)
       sql_steam_info = create_script_table("steamInfo", valueColumns, arrayColumns)
       ## Create and format Dataframe
-      df_steam_info= pd.DataFrame(data_steam_info)
+      df_steam_info = pd.DataFrame(data_steam_info)
       for column in arrayColumns:
-          df_oc_info[column] = df_oc_info[column].apply(lambda x: '{' + ','.join(x) + '}')
+          df_steam_info[column] = df_steam_info[column].apply(lambda x: '{' + ','.join(x) + '}')
     
       # Steam Reviews
       valueColumns = ['language', 'review', 'voted_up','votes_up','votes_funny', 'timestamp_created', 'timestamp_updated']
