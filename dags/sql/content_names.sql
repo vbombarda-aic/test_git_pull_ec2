@@ -1,1 +1,1 @@
-SELECT DISTINCT "contentid", "content" FROM Content LIMIT 2;
+SELECT DISTINCT "contentid", "content" FROM Content LIMIT 10;
