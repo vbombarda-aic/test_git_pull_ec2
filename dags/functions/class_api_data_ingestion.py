@@ -69,7 +69,7 @@ class InsertApiData(BaseOperator):
       game_id = list(data['steam_info'].keys())[0]
       data_steam_info = transform_dict(data['steam_info'][game_id]['data'], data['id'], data['name'],
                              valueColumns=valueColumns, arrayColumns=arrayColumns)
-      sql_steam_info = create_script_table('steaminfo', valueColumns, arrayColumns)
+      sql_steam_info = create_script_table('steam_info', valueColumns, arrayColumns)
       ## Create and format Dataframe
       df_steam_info = pd.DataFrame(data_steam_info)
       for column in arrayColumns:
@@ -98,7 +98,10 @@ class InsertApiData(BaseOperator):
       print('engine created')
       with engine.connect() as con:
           con.execute(text(sql_steam_info))
-      table_insert_data(df_steam_info, engine, 'steaminfo')
+          print("creation successfully concluded")
+      print("inserting data with schema:", str(df_steam_info.columns))
+      print(df_steam_info)
+      table_insert_data(df_steam_info, engine, 'steam_info')
       print('table created')
 
       return True
