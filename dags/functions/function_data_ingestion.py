@@ -57,3 +57,22 @@ def transform_dict(data: dict or list, data_id, data_name: str, valueColumns: li
     else:
         raise Exception("Data object has to be of type list or dict.")
 
+
+def create_script_table(table_name, valueColumns, arrayColumns):
+    sql_create_table_script = """
+    """
+    for column in valueColumns:
+        sql_create_table_script = sql_create_table_script + f"{column} text," + "\n"
+
+    for column in arrayColumns:
+        sql_create_table_script = sql_create_table_script + f"{column} text[],"  + "\n"
+
+
+    return f'''
+    CREATE TABLE IF NOT EXISTS {table_name} (
+        {table_name}_ID serial NOT NULL,
+        ID int NOT NULL,
+        Name text NOT NULL,
+        {sql_create_table_script}
+        CONSTRAINT {table_name}_pk PRIMARY KEY ({table_name}_ID, ID, Name)
+         );'''
