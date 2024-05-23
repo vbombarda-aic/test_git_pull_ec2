@@ -52,7 +52,7 @@ class InsertApiData(BaseOperator):
       sql_oc_info = create_script_table('opencriticinfo', valueColumns, arrayColumns)
       ## Create and format Dataframe
       df_oc_info = pd.DataFrame(data_oc_info)
-      df_oc_reviews["Insertion_date"] = execution_date
+      df_oc_info["Insertion_date"] = execution_date
       for column in arrayColumns:
           df_oc_info[column] = df_oc_info[column].apply(lambda x: '{' + ','.join(x) + '}')
       
