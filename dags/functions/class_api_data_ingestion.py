@@ -52,7 +52,7 @@ class InsertApiData(BaseOperator):
       sql_oc_info = create_script_table('opencriticinfo', valueColumns, arrayColumns)
       ## Create and format Dataframe
       df_oc_info = pd.DataFrame(data_oc_info)
-      df_oc_info["Insertion_date"] = execution_date
+      df_oc_info["insertion_date"] = execution_date
       for column in arrayColumns:
           df_oc_info[column] = df_oc_info[column].apply(lambda x: '{' + ','.join(x) + '}')
       
@@ -64,7 +64,7 @@ class InsertApiData(BaseOperator):
       sql_oc_reviews = create_script_table('opencriticreviews', valueColumns, arrayColumns)
       ## Create and format Dataframe
       df_oc_reviews = pd.DataFrame(data_oc_reviews)
-      df_oc_reviews["Insertion_date"] = execution_date
+      df_oc_reviews["insertion_date"] = execution_date
 
       # Steam Info
       valueColumns = ['short_description']
@@ -75,7 +75,7 @@ class InsertApiData(BaseOperator):
       sql_steam_info = create_script_table('steam_info', valueColumns, arrayColumns)
       ## Create and format Dataframe
       df_steam_info = pd.DataFrame(data_steam_info)
-      df_steam_info["Insertion_date"] = execution_date
+      df_steam_info["insertion_date"] = execution_date
       for column in arrayColumns:
           df_steam_info[column] = df_steam_info[column].apply(lambda x: '{' + ','.join(x) + '}')
     
@@ -86,7 +86,7 @@ class InsertApiData(BaseOperator):
       sql_steam_reviews = create_script_table('steamreviews', valueColumns, arrayColumns)
       ## Create and format Dataframe
       df_steam_reviews = pd.DataFrame(data_steam_reviews)
-      df_steam_reviews["Insertion_date"] = execution_date
+      df_steam_reviews["insertion_date"] = execution_date
 
       ### FINISH
         
