@@ -108,20 +108,17 @@ class InsertApiData(BaseOperator):
             
           ##### Proceed to ingest it into the Database
     
-          # Open Critic Info
+          # Create Tables
           create_table(sql_oc_info, engine)
-          table_insert_data(df_oc_info, engine, 'opencritic_info')
-            
-          # Open Critic Reviews
           create_table(sql_oc_reviews, engine)
-          table_insert_data(df_oc_reviews, engine, 'opencritic_reviews')
-    
-          # Steam Info
           create_table(sql_steam_info, engine)
-          table_insert_data(df_steam_info, engine, 'steam_info')
-    
-          # Steam Reviews
           create_table(sql_steam_reviews, engine)
+          
+            
+          # Data Insertions
+          table_insert_data(df_oc_info, engine, 'opencritic_info')
+          table_insert_data(df_oc_reviews, engine, 'opencritic_reviews')
+          table_insert_data(df_steam_info, engine, 'steam_info')
           table_insert_data(df_steam_reviews, engine, 'steam_reviews')
           
           print('tables created and data inserted for file ', str(file))
