@@ -74,8 +74,7 @@ def create_script_table(table_name, valueColumns, arrayColumns):
         ID int NOT NULL,
         Name text NOT NULL,
         {sql_create_table_script}
-        Insertion_date timestamp NOT NULL,
-        CONSTRAINT {table_name}_pk PRIMARY KEY (Insertion_date, ID, Name)
+        Insertion_date timestamp NOT NULL
          );'''
 
 
