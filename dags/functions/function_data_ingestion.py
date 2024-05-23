@@ -33,7 +33,7 @@ def transform_dict(data: dict or list, data_id, data_name: str, valueColumns: li
                 data[column] = [x["description"] for x in data[column]]
         
         data['id'] = data_id
-        data['data_name'] = data_name
+        data['name'] = data_name
         return [data]
     
     elif type(data) == list:
