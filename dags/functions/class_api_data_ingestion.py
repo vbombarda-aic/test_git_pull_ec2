@@ -52,7 +52,7 @@ class InsertApiData(BaseOperator):
           valueColumns = ['percentRecommended', 'numReviews', 'medianScore', 'topCriticScore','tier', 'description']
           arrayColumns = ['Companies', 'Genres']
           data_oc_info = transform_dict(data['oc_info'], data['id'], data['name'], valueColumns=valueColumns, arrayColumns=arrayColumns)
-          sql_oc_info = create_script_table('opencriticinfo', valueColumns, arrayColumns)
+          sql_oc_info = create_script_table('opencritic_info', valueColumns, arrayColumns)
           ## Create and format Dataframe
           df_oc_info = pd.DataFrame(data_oc_info)
           df_oc_info["insertion_date"] = execution_date
@@ -64,7 +64,7 @@ class InsertApiData(BaseOperator):
           valueColumns = ['score', 'language', 'publishedDate', 'snippet', 'externalUrl']
           arrayColumns = []
           data_oc_reviews = transform_dict(data['oc_reviews'], data['id'], data['name'], valueColumns=valueColumns)
-          sql_oc_reviews = create_script_table('opencriticreviews', valueColumns, arrayColumns)
+          sql_oc_reviews = create_script_table('opencritic_reviews', valueColumns, arrayColumns)
           ## Create and format Dataframe
           df_oc_reviews = pd.DataFrame(data_oc_reviews)
           df_oc_reviews["insertion_date"] = execution_date
@@ -86,7 +86,7 @@ class InsertApiData(BaseOperator):
           valueColumns = ['language', 'review', 'voted_up','votes_up','votes_funny', 'timestamp_created', 'timestamp_updated']
           arrayColumns = []
           data_steam_reviews = transform_dict(data['steam_reviews']['reviews'], data['id'], data['name'], valueColumns=valueColumns)
-          sql_steam_reviews = create_script_table('steamreviews', valueColumns, arrayColumns)
+          sql_steam_reviews = create_script_table('steam_reviews', valueColumns, arrayColumns)
           ## Create and format Dataframe
           df_steam_reviews = pd.DataFrame(data_steam_reviews)
           df_steam_reviews["insertion_date"] = execution_date
