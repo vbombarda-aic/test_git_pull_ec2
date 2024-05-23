@@ -12,7 +12,7 @@ def table_insert_data(df, engine, table_name): #, dtype):
         df.to_sql(name=table_name.lower(), con=engine, index=False, if_exists='append')
         print("data successfully inserted")
 
-def create_table(sql_script):
+def create_table(sql_script, engine):
     with engine.connect() as con:
         con.execute(text(sql_script))
         print("creation successfully concluded")
@@ -105,19 +105,19 @@ class InsertApiData(BaseOperator):
           ##### Proceed to ingest it into the Database
     
           # Open Critic Info
-          create_table(sql_oc_info)
+          create_table(sql_oc_info, engine)
           table_insert_data(df_oc_info, engine, 'opencritic_info')
             
           # Open Critic Reviews
-          create_table(sql_oc_reviews)
+          create_table(sql_oc_reviews, engine)
           table_insert_data(df_oc_reviews, engine, 'opencritic_reviews')
     
           # Steam Info
-          create_table(sql_steam_info)
+          create_table(sql_steam_info, engine)
           table_insert_data(df_steam_info, engine, 'steam_info')
     
           # Steam Reviews
-          create_table(sql_steam_reviews)
+          create_table(sql_steam_reviews, engine)
           table_insert_data(df_steam_reviews, engine, 'steam_reviews')
           
           print('tables created and data inserted for file ', str(file))
