@@ -22,6 +22,9 @@ DAG_DEFAULT_ARGS = {
     'retry_delay': timedelta(minutes=1)
 }
 
+# Get the directory of the current script file (the DAG file)
+dag_directory = os.path.dirname(os.path.abspath(__file__))
+
 def get_sql_file(file_name):
     sql_file_path = os.path.join(dag_directory, f'sql/{file_name}.sql')
     with open(sql_file_path, 'r') as file:
