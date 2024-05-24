@@ -3,14 +3,14 @@ import pandas as pd
 from io import StringIO
 import psycopg2
 
-def get_data(bucket_name, file_key):
+def get_data(bucket_name, file_key, sep=','):
     session = boto3.Session()
     s3 = session.client('s3')
     print('bucket_name ', bucket_name)
     print('file_key ', file_key)
     obj = s3.get_object(Bucket=bucket_name, Key=file_key)
     data = obj['Body'].read().decode('utf-8')
-    df = pd.read_csv(StringIO(data))
+    df = pd.read_csv(StringIO(data), sep=sep)
     return df
 
 
