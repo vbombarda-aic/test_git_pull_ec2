@@ -11,7 +11,6 @@ DB_NAME = 'structured'
 DB_USER = 'test_admin'
 DB_PASSWORD = 'test_password'
 DB_PORT = '5432'
-TABLE_NAME = 'temporary_table'
 
 UserID = "RespondentID"
 DateTime = "Timestamp"
@@ -24,11 +23,13 @@ class InsertStructuredData(BaseOperator):
     @apply_defaults
     def __init__(self, bucket_name: str,
                     file_path: str,
+                    table_name: str,
                     *args,
                     **kwargs):
         super(InsertStructuredData, self).__init__(*args, **kwargs)
         self.bucket_name = bucket_name
         self.file_path = file_path
+        self.table_name = table_name
     
     def execute(self, context):
       execution_date = context['execution_date'].strftime('%Y-%m-%dT%H:%M:%S')
@@ -41,7 +42,7 @@ class InsertStructuredData(BaseOperator):
       engine = create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
 
       print("engine created")
-      create_table_and_insert_data(df, engine, TABLE_NAME)
+      create_table_and_insert_data(df, engine, self.table_name)
       print("table created")
 
       return True
