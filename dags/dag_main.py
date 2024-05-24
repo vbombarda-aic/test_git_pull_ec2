@@ -101,14 +101,20 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     )
 
     ## Trigger a differente DAG pipeline
-    example_trigger = TriggerDagRunOperator(
-      task_id="get_api_content",
+    api_trigger = TriggerDagRunOperator(
+      task_id="trigger_api_dag",
       trigger_dag_id="dag_content_api_calls"
+    )
+             
+    ## Trigger a differente DAG pipeline
+    mapping_trigger = TriggerDagRunOperator(
+      task_id="trigger_mapping_dag",
+      trigger_dag_id="dag_mapping"
     )
     
     validate_task >> ingest_task
     ingest_task   >> content_table >> experience_table 
     ingest_task   >> survey_table >> surveyquestions_table
     [experience_table , surveyquestions_table] >> surveyanswers_table
-    surveyanswers_table >> example_trigger
+    surveyanswers_table >> [api_trigger, mapping_trigger]
     
