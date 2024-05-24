@@ -22,7 +22,7 @@ DAG_DEFAULT_ARGS = {
 
 # Dag is instanciated
 with DAG('dag_mapping', start_date=datetime(2018, 10, 1), schedule_interval='@daily', default_args = DAG_DEFAULT_ARGS,
-         catchup = False, is_paused_upon_creation=):
+         catchup = False, is_paused_upon_creation=False):
 
   task1 = InsertApiData(
     task_id="data_mapping_insertion",
