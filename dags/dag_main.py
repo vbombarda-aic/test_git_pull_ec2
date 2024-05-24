@@ -60,7 +60,8 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     ingest_task = InsertStructuredData(
         task_id='data_insertion_to_database',
         bucket_name="argo-data-lake",
-        file_path="raw/processed_file.csv"
+        file_path="raw/processed_file.csv",
+        table_name= 'temporary_table'
     )
                         
     ## SQL commands to populate the tables
