@@ -30,8 +30,8 @@ def get_sql_file(file_name):
     with open(sql_file_path, 'r') as file:
         return file.read()
 
-update_sql = get_sql_file("update_questions_description.sql")
-create_categories_table_sql = get_sql_file("create_categories_table_sql.sql")
+update_sql = get_sql_file("update_questions_description")
+create_categories_table_sql = get_sql_file("create_categories_table_sql")
 
 # Dag is instanciated
 with DAG('dag_mapping', start_date=datetime(2018, 10, 1), schedule_interval=None, is_paused_upon_creation=False, default_args = DAG_DEFAULT_ARGS,
