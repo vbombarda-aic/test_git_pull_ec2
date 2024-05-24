@@ -4,6 +4,7 @@ from airflow.operators.python import PythonOperator
 from airflow.models.baseoperator import BaseOperator
 from functions.class_mapping_ingestion import InsertApiData
 from functions.class_query_db import PostgresQueryOperator
+import os
 
 # Database connection details
 db_credentials = {
