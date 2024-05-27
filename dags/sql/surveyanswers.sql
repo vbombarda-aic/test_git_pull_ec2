@@ -14,7 +14,7 @@ USING (
     (
         SELECT B."questionid", A."variable" AS Question
         FROM temporary_table A
-        LEFT JOIN SurveyQuestions B ON
+        LEFT JOIN structured.SurveyQuestions B ON
                 A."Survey" = B."survey"
                 AND A."variable" = B."question"
     )
