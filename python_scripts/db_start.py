@@ -1,6 +1,7 @@
 import psycopg2
 from psycopg2 import sql
 
+## Create database
 conn = psycopg2.connect(
             host="db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com",
             dbname="postgres",
@@ -18,3 +19,27 @@ try:
   print(f"{db_name} successfully created!")
 except:
   print(f"Error creating {db_name} database.")
+cursor.close()
+conn.close()
+
+## Create schemas
+conn = psycopg2.connect(
+            host="db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com",
+            dbname=db_name,
+            user="test_admin",
+            password="test_password",
+            port=5432)
+
+conn.autocommit = True 
+cursor = conn.cursor()
+print("Connection successful")
+
+schemas = ["structured", "analytics"]
+for schema in schemas:
+   try:
+     cursor.execute(sql.SQL(f"CREATE SCHEMA {schema}"))
+     print(f"{schema} successfully created!")
+   except:
+     print(f"Error creating {schema} schema.")
+
+
