@@ -86,6 +86,7 @@ class InsertApiData(BaseOperator):
           for column in arrayColumns:
               df_steam_info[column] = df_steam_info[column].apply(lambda x: '{' + ','.join(x) + '}')
           df_steam_info.columns = df_steam_info.columns.str.lower()
+          print(df_steam_info)
         
           # Steam Reviews
           valueColumns = ['language', 'review', 'voted_up','votes_up','votes_funny', 'timestamp_created', 'timestamp_updated']
