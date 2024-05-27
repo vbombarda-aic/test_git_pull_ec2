@@ -1,1 +1,1 @@
-SELECT DISTINCT "contentid", "content" FROM structured.Content LIMIT 10;
+SELECT ''; --DISTINCT "contentid", "content" FROM structured.Content LIMIT 10;
