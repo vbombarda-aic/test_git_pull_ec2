@@ -9,7 +9,7 @@ from io import StringIO
 
 def table_insert_data(df, engine, table_name): #, dtype):
     with engine.connect() as connection:
-        df.to_sql(name=table_name.lower(), con=engine, index=False, if_exists='append')
+        df.to_sql(name=table_name, con=engine, index=False, if_exists='append')
         print("data successfully inserted")
 
 def create_table(sql_script, engine):
@@ -52,7 +52,7 @@ class InsertApiData(BaseOperator):
           valueColumns = ['percentRecommended', 'numReviews', 'medianScore', 'topCriticScore','tier', 'description']
           arrayColumns = ['Companies', 'Genres']
           data_oc_info = transform_dict(data['oc_info'], data['id'], data['name'], valueColumns=valueColumns, arrayColumns=arrayColumns)
-          sql_oc_info = create_script_table('opencritic_info', valueColumns, arrayColumns)
+          sql_oc_info = create_script_table('structured.opencritic_info', valueColumns, arrayColumns)
           ## Create and format Dataframe
           df_oc_info = pd.DataFrame(data_oc_info)
           df_oc_info["insertion_date"] = execution_date
@@ -65,7 +65,7 @@ class InsertApiData(BaseOperator):
           valueColumns = ['score', 'language', 'publishedDate', 'snippet', 'externalUrl']
           arrayColumns = []
           data_oc_reviews = transform_dict(data['oc_reviews'], data['id'], data['name'], valueColumns=valueColumns)
-          sql_oc_reviews = create_script_table('opencritic_reviews', valueColumns, arrayColumns)
+          sql_oc_reviews = create_script_table('structured.opencritic_reviews', valueColumns, arrayColumns)
           ## Create and format Dataframe
           df_oc_reviews = pd.DataFrame(data_oc_reviews)
           df_oc_reviews["insertion_date"] = execution_date
@@ -77,7 +77,7 @@ class InsertApiData(BaseOperator):
           game_id = list(data['steam_info'].keys())[0]
           data_steam_info = transform_dict(data['steam_info'][game_id]['data'], data['id'], data['name'],
                                  valueColumns=valueColumns, arrayColumns=arrayColumns)
-          sql_steam_info = create_script_table('steam_info', valueColumns, arrayColumns)
+          sql_steam_info = create_script_table('structured.steam_info', valueColumns, arrayColumns)
           ## Create and format Dataframe
           df_steam_info = pd.DataFrame(data_steam_info)
           df_steam_info["insertion_date"] = execution_date
@@ -90,7 +90,7 @@ class InsertApiData(BaseOperator):
           valueColumns = ['language', 'review', 'voted_up','votes_up','votes_funny', 'timestamp_created', 'timestamp_updated']
           arrayColumns = []
           data_steam_reviews = transform_dict(data['steam_reviews']['reviews'], data['id'], data['name'], valueColumns=valueColumns)
-          sql_steam_reviews = create_script_table('steam_reviews', valueColumns, arrayColumns)
+          sql_steam_reviews = create_script_table('structured.steam_reviews', valueColumns, arrayColumns)
           ## Create and format Dataframe
           df_steam_reviews = pd.DataFrame(data_steam_reviews)
           df_steam_reviews["insertion_date"] = execution_date
@@ -117,10 +117,10 @@ class InsertApiData(BaseOperator):
           
             
           # Data Insertions
-          table_insert_data(df_oc_info, engine, 'opencritic_info')
-          table_insert_data(df_oc_reviews, engine, 'opencritic_reviews')
-          table_insert_data(df_steam_info, engine, 'steam_info')
-          table_insert_data(df_steam_reviews, engine, 'steam_reviews')
+          table_insert_data(df_oc_info, engine, 'structured.opencritic_info')
+          table_insert_data(df_oc_reviews, engine, 'structured.opencritic_reviews')
+          table_insert_data(df_steam_info, engine, 'structured.steam_info')
+          table_insert_data(df_steam_reviews, engine, 'structured.steam_reviews')
           
           print('tables created and data inserted for file ', str(file))
 
