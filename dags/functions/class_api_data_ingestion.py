@@ -7,10 +7,10 @@ import boto3
 import pandas as pd
 from io import StringIO
 
-def table_insert_data(df, engine, table_name): #, dtype):
+def table_insert_data(df, engine, table_name):
     with engine.connect() as connection:
         df.to_sql(name=table_name, con=engine, index=False, if_exists='append')
-        print("data successfully inserted")
+        print(f"data successfully inserted to table {table_name}")
 
 def create_table(sql_script, engine):
     with engine.connect() as con:
@@ -59,7 +59,7 @@ class InsertApiData(BaseOperator):
           for column in arrayColumns:
               df_oc_info[column] = df_oc_info[column].apply(lambda x: '{' + ','.join(x) + '}')
           df_oc_info.columns = df_oc_info.columns.str.lower()
-          
+                    
             
           # Open Critic Reviews
           valueColumns = ['score', 'language', 'publishedDate', 'snippet', 'externalUrl']
@@ -70,6 +70,7 @@ class InsertApiData(BaseOperator):
           df_oc_reviews = pd.DataFrame(data_oc_reviews)
           df_oc_reviews["insertion_date"] = execution_date
           df_oc_reviews.columns = df_oc_reviews.columns.str.lower()
+          print(df_oc_reviews)
     
           # Steam Info
           valueColumns = ['short_description']
@@ -84,7 +85,6 @@ class InsertApiData(BaseOperator):
           for column in arrayColumns:
               df_steam_info[column] = df_steam_info[column].apply(lambda x: '{' + ','.join(x) + '}')
           df_steam_info.columns = df_steam_info.columns.str.lower()
-          print(df_steam_info)
         
           # Steam Reviews
           valueColumns = ['language', 'review', 'voted_up','votes_up','votes_funny', 'timestamp_created', 'timestamp_updated']
@@ -114,7 +114,7 @@ class InsertApiData(BaseOperator):
           create_table(sql_oc_reviews, engine)
           create_table(sql_steam_info, engine)
           create_table(sql_steam_reviews, engine)
-          
+          print(sql_steam_info)
             
           # Data Insertions
           table_insert_data(df_oc_info, engine, 'structured.opencritic_info')
