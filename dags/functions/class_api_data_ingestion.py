@@ -9,7 +9,7 @@ from io import StringIO
 
 def table_insert_data(df, engine, table_name):
     with engine.connect() as connection:
-        df.to_sql(name=table_name, con=engine, index=False, if_exists='append')
+        df.to_sql(name=table_name, schema='structured', con=engine, index=False, if_exists='append')
         print(f"data successfully inserted to table {table_name}")
 
 def create_table(sql_script, engine):
@@ -117,10 +117,10 @@ class InsertApiData(BaseOperator):
           print(sql_steam_info)
             
           # Data Insertions
-          table_insert_data(df_oc_info, engine, 'structured.opencritic_info')
-          table_insert_data(df_oc_reviews, engine, 'structured.opencritic_reviews')
-          table_insert_data(df_steam_info, engine, 'structured.steam_info')
-          table_insert_data(df_steam_reviews, engine, 'structured.steam_reviews')
+          table_insert_data(df_oc_info, engine, 'opencritic_info')
+          table_insert_data(df_oc_reviews, engine, 'opencritic_reviews')
+          table_insert_data(df_steam_info, engine, 'steam_info')
+          table_insert_data(df_steam_reviews, engine, 'steam_reviews')
           
           print('tables created and data inserted for file ', str(file))
 
