@@ -11,7 +11,7 @@ from functions.class_query_db import PostgresQueryOperator
 # Database connection details
 db_credentials = {
 "DB_HOST":     'db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com',
-"DB_NAME":     'structured',
+"DB_NAME":     'argo',
 "DB_USER":     'test_admin',
 "DB_PASSWORD": 'test_password',
 "DB_PORT":     '5432'
@@ -62,7 +62,8 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
         task_id='data_insertion_to_database',
         bucket_name="argo-data-lake",
         file_path="raw/processed_file.csv",
-        table_name= 'temporary_table'
+        table_name='temporary_table',
+        db_credentials=db_credentials
     )
                         
     ## SQL commands to populate the tables
