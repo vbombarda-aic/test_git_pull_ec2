@@ -134,5 +134,5 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     ingest_task   >> content_table >> experience_table 
     ingest_task   >> survey_table >> surveyquestions_table
     [experience_table , surveyquestions_table] >> surveyanswers_table
-    surveyanswers_table >> [api_trigger, mapping_trigger] >> [users_dim, fact_experience]
+    surveyanswers_table >> [api_trigger, mapping_trigger] >> users_dim >> fact_experience
     
