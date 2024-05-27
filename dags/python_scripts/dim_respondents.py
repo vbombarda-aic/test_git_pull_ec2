@@ -60,6 +60,9 @@ def create_dimension_respondents(db_credentials):
         id INT,
         {column_definitions}
     );
+
+    ALTER TABLE analytics.dim_respondents
+    ADD CONSTRAINT respondents_pk PRIMARY KEY ("experienceid");
     """
     cur.execute(sql.SQL(crosstab_query))
     conn.commit()
