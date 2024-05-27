@@ -1,5 +1,5 @@
 MERGE INTO
-    Content AS A
+    structured.Content AS A
 USING (
     SELECT DISTINCT "Content",
             CONCAT_WS('_', "Content") AS mergeKey
