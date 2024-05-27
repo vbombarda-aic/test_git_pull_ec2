@@ -70,7 +70,6 @@ class InsertApiData(BaseOperator):
           df_oc_reviews = pd.DataFrame(data_oc_reviews)
           df_oc_reviews["insertion_date"] = execution_date
           df_oc_reviews.columns = df_oc_reviews.columns.str.lower()
-          print(df_oc_reviews)
     
           # Steam Info
           valueColumns = ['short_description']
@@ -114,7 +113,6 @@ class InsertApiData(BaseOperator):
           create_table(sql_oc_reviews, engine)
           create_table(sql_steam_info, engine)
           create_table(sql_steam_reviews, engine)
-          print(sql_steam_info)
             
           # Data Insertions
           table_insert_data(df_oc_info, engine, 'opencritic_info')
