@@ -62,7 +62,8 @@ def create_dimension_respondents(db_credentials):
     );
     """
     cur.execute(sql.SQL(crosstab_query))
-
+    conn.commit()
+    print("Table created successfully")
     # Close the cursor and connection
     cur.close()
     conn.close()
