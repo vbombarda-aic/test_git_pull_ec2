@@ -11,11 +11,13 @@ def table_insert_data(df, engine, table_name): #, dtype):
     with engine.connect() as connection:
         df.to_sql(name=table_name.lower(), con=engine, index=False, if_exists='append')
         print("data successfully inserted")
+        connection.commit()
 
 def create_table(sql_script, engine):
     with engine.connect() as con:
         con.execute(text(sql_script))
         print("creation successfully concluded")
+        con.commit()
 
 def get_data(bucket_name, file_key):
     session = boto3.Session()
