@@ -5,18 +5,10 @@ from airflow.utils.decorators import apply_defaults
 import json
 import pandas as pd
 
-# Database connection details
-DB_HOST = 'db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com'
-DB_NAME = 'structured'
-DB_USER = 'test_admin'
-DB_PASSWORD = 'test_password'
-DB_PORT = '5432'
-
 UserID = "RespondentID"
 DateTime = "Timestamp"
 ContentID = "Content"
 Survey = "Survey"
-
 
 class InsertStructuredData(BaseOperator):
 
@@ -24,14 +16,24 @@ class InsertStructuredData(BaseOperator):
     def __init__(self, bucket_name: str,
                     file_path: str,
                     table_name: str,
+                    db_credentials: dict,
                     *args,
                     **kwargs):
         super(InsertStructuredData, self).__init__(*args, **kwargs)
         self.bucket_name = bucket_name
         self.file_path = file_path
         self.table_name = table_name
+        self.db_credentials = db_credentials
     
     def execute(self, context):
+      # Database connection details
+      DB_HOST = self.db_credentials["DB_HOST"]
+      DB_NAME = self.db_credentials["DB_NAME"]
+      DB_USER = self.db_credentials["DB_USER"]
+      DB_PASSWORD = self.db_credentials["DB_PASSWORD"]
+      DB_PORT = self.db_credentials["DB_PORT"]
+
+      # Data ingestion and transformation  
       execution_date = context['execution_date'].strftime('%Y-%m-%dT%H:%M:%S')
       file_path_split = self.file_path.split("/")
       enriched_file_path = file_path_split[0] + "/survey_data/" + str(execution_date) + "/" + file_path_split[1]
