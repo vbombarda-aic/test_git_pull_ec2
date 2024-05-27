@@ -6,7 +6,7 @@ USING (
     (
         SELECT A."RespondentID", A."variable" AS Question, A."value" AS Answer, B."experienceid"
         FROM temporary_table A
-        LEFT JOIN Experience B ON
+        LEFT JOIN structured.Experience B ON
                 A."RespondentID" = B."respondentid"
                 AND A."Survey" = B."survey"
                 AND A."Content" = B."content"
