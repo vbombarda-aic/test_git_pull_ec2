@@ -45,7 +45,7 @@ def create_dimension_content(db_credentials):
         FROM structured.steam_info
     )
                 
-    SELECT A."id",
+    SELECT A."id" AS content_id,
         A."name",
         B."short_description",
         B."categories",
@@ -63,6 +63,9 @@ def create_dimension_content(db_credentials):
     LEFT JOIN steam_info B ON A."id" = B."id" AND A."name" = B."name"
                 
     WHERE A."rn" = 1 AND B."rn" = 1;
+
+    ALTER TABLE analytics.dim_content
+    ADD CONSTRAINT content_pk PRIMARY KEY ("content_id", "name");
     '''
     cur.execute(sql.SQL(query))
     cur.close()
