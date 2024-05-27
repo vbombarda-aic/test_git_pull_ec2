@@ -109,12 +109,14 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     ## Trigger a differente DAG pipeline
     api_trigger = TriggerDagRunOperator(
       task_id="trigger_api_dag",
+      wait_for_completion = True,
       trigger_dag_id="dag_content_api_calls"
     )
              
     ## Trigger a differente DAG pipeline
     mapping_trigger = TriggerDagRunOperator(
       task_id="trigger_mapping_dag",
+      wait_for_completion = True,
       trigger_dag_id="dag_mapping"
     )
 
