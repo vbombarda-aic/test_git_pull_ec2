@@ -1,12 +1,15 @@
 from airflow.utils.decorators import apply_defaults
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
-from airflow import DAG
+from airflow.operators.python_operator import PythonOperator
 from datetime import date, timedelta, datetime
-import boto3
-import os
 from functions.class_lambda_trigger import TriggerLambdaOperator
 from functions.class_data_ingestion import InsertStructuredData
 from functions.class_query_db import PostgresQueryOperator
+from python_scripts.dim_respondents import create_dimension_respondents
+from python_scripts.fact_experience import create_fact_experience
+from airflow import DAG
+import boto3
+import os
 
 # Database connection details
 db_credentials = {
@@ -113,10 +116,23 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
       task_id="trigger_mapping_dag",
       trigger_dag_id="dag_mapping"
     )
+
+    ## Run Python scripts that create the analytics tables
+    users_dim = PythonOperator(
+      task_id='users_dim',
+      python_callable=create_dimension_respondents,
+      op_kwargs={'db_credentials': db_credentials}
+    )
+
+    fact_experience = PythonOperator(
+      task_id='experience_fact',
+      python_callable=create_fact_experience,
+      op_kwargs={'db_credentials': db_credentials}
+    )
     
     validate_task >> ingest_task
     ingest_task   >> content_table >> experience_table 
     ingest_task   >> survey_table >> surveyquestions_table
     [experience_table , surveyquestions_table] >> surveyanswers_table
-    surveyanswers_table >> [api_trigger, mapping_trigger]
+    surveyanswers_table >> [api_trigger, mapping_trigger] >> [users_dim, fact_experience]
     
