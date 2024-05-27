@@ -133,7 +133,11 @@ def create_fact_experience(db_credentials):
 
     LEFT JOIN ct ON ct."experienceid" = A."experienceid"
 
-    LEFT JOIN ct2 ON ct2."experienceid_2" = A."experienceid"
+    LEFT JOIN ct2 ON ct2."experienceid_2" = A."experienceid";
+
+    ALTER TABLE analytics.fact_experience
+    ADD CONSTRAINT fact_pk PRIMARY KEY ("experienceid", "content", "timestamp")
+    
 
     """
     cur.execute(sql.SQL(crosstab_query))
