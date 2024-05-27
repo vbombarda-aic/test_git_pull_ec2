@@ -1,5 +1,5 @@
 MERGE INTO
-    Experience AS A
+    structured.Experience AS A
 USING (
     
     SELECT DISTINCT "RespondentID",

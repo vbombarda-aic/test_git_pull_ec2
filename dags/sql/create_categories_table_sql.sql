@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS QuestionsCategories;
+DROP TABLE IF EXISTS structured.QuestionsCategories;
 
-CREATE TABLE QuestionsCategories AS
+CREATE TABLE structured.QuestionsCategories AS
 
   SELECT A."Category", A."Question"
 

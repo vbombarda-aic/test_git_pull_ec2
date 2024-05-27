@@ -1,4 +1,4 @@
-MERGE INTO SurveyQuestions AS A
+MERGE INTO structured.SurveyQuestions AS A
 
 USING(
     SELECT B."questionid", a."Question", a."Description",
@@ -6,7 +6,7 @@ USING(
 
     FROM "mapping_table" a
 
-    LEFT JOIN SurveyQuestions B ON A."Question" = B.question
+    LEFT JOIN structured.SurveyQuestions B ON A."Question" = B.question
 
 ) B
 

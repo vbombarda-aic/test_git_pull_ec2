@@ -1,5 +1,5 @@
 MERGE INTO
-    SurveyAnswers AS A
+    structured.SurveyAnswers AS A
 USING (
 
     WITH exp_temp_view AS

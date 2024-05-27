@@ -1,5 +1,5 @@
 MERGE INTO
-    SurveyQuestions AS A
+    structured.SurveyQuestions AS A
 USING (
     SELECT DISTINCT "Survey", "variable" AS Question,
             CONCAT_WS('_', "Survey", "variable") AS mergeKey
