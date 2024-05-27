@@ -6,6 +6,7 @@ from functions.class_lambda_trigger import TriggerLambdaOperator
 from functions.class_data_ingestion import InsertStructuredData
 from functions.class_query_db import PostgresQueryOperator
 from python_scripts.dim_respondents import create_dimension_respondents
+from python_scripts.dim_content import create_dimension_content
 from python_scripts.fact_experience import create_fact_experience
 from airflow import DAG
 import boto3
@@ -124,9 +125,15 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
       op_kwargs={'db_credentials': db_credentials}
     )
 
-    fact_experience = PythonOperator(
+    experience_fact = PythonOperator(
       task_id='experience_fact',
       python_callable=create_fact_experience,
+      op_kwargs={'db_credentials': db_credentials}
+    )
+
+    content_dim = PythonOperator(
+      task_id='content_dim',
+      python_callable=create_dimension_content,
       op_kwargs={'db_credentials': db_credentials}
     )
     
@@ -134,5 +141,5 @@ with DAG('dag_main', default_args=default_args, description='DAG to trigger a La
     ingest_task   >> content_table >> experience_table 
     ingest_task   >> survey_table >> surveyquestions_table
     [experience_table , surveyquestions_table] >> surveyanswers_table
-    surveyanswers_table >> [api_trigger, mapping_trigger] >> users_dim >> fact_experience
+    surveyanswers_table >> [api_trigger, mapping_trigger] >> users_dim >> content_dim >> experience_fact
     
