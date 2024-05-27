@@ -27,7 +27,7 @@ def create_fact_experience(db_credentials):
     column_names = [row[0] for row in columns]
 
     # Create the column definition string for the crosstab query
-    column_definitions = ", ".join([f'"{col}" TEXT' for col in column_names])
+    column_definitions = ", ".join([f'"{col}" DECIMAL' for col in column_names])
 
     # Query to get distinct question descriptions
     cur.execute('''SELECT DISTINCT B."questiondescription"
@@ -43,7 +43,7 @@ def create_fact_experience(db_credentials):
     column_names = [row[0].strip() + "_bool" for row in columns]
 
     # Create the column definition string for the crosstab query
-    column_definitions2 = ", ".join([f'"{col}" TEXT' for col in column_names])
+    column_definitions2 = ", ".join([f'"{col}" INT' for col in column_names])
 
     # Construct the dynamic crosstab query
     crosstab_query = f"""
