@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS structured.SurveyQuestions (
 
 -- foreign keys
 -- Reference: Experience_Content (table: Experience)
-ALTER TABLE Experience ADD CONSTRAINT Experience_Content
+ALTER TABLE structured.Experience ADD CONSTRAINT Experience_Content
     FOREIGN KEY (Content)
     REFERENCES Content (Content)  
     NOT DEFERRABLE 
@@ -52,7 +52,7 @@ ALTER TABLE Experience ADD CONSTRAINT Experience_Content
 ;
 
 -- Reference: SurveyAnswers_Experience (table: SurveyAnswers)
-ALTER TABLE SurveyAnswers ADD CONSTRAINT SurveyAnswers_Experience
+ALTER TABLE structured.SurveyAnswers ADD CONSTRAINT SurveyAnswers_Experience
     FOREIGN KEY (ExperienceID)
     REFERENCES Experience (ExperienceID)  
     NOT DEFERRABLE 
@@ -60,7 +60,7 @@ ALTER TABLE SurveyAnswers ADD CONSTRAINT SurveyAnswers_Experience
 ;
 
 -- Reference: SurveyAnswers_SurveyQuestions (table: SurveyAnswers)
-ALTER TABLE SurveyAnswers ADD CONSTRAINT SurveyAnswers_SurveyQuestions
+ALTER TABLE structured.SurveyAnswers ADD CONSTRAINT SurveyAnswers_SurveyQuestions
     FOREIGN KEY (QuestionID)
     REFERENCES SurveyQuestions (QuestionID)  
     NOT DEFERRABLE 
@@ -68,7 +68,7 @@ ALTER TABLE SurveyAnswers ADD CONSTRAINT SurveyAnswers_SurveyQuestions
 ;
 
 -- Reference: SurveyQuestions_Survey (table: SurveyQuestions)
-ALTER TABLE SurveyQuestions ADD CONSTRAINT SurveyQuestions_Survey
+ALTER TABLE structured.SurveyQuestions ADD CONSTRAINT SurveyQuestions_Survey
     FOREIGN KEY (Survey)
     REFERENCES Survey (Survey)  
     NOT DEFERRABLE 
