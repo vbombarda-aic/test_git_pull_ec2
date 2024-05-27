@@ -77,7 +77,7 @@ def create_script_table(table_name, valueColumns, arrayColumns):
 
     return f'''
     CREATE TABLE IF NOT EXISTS {table_name} (
-        {table_name}_ID serial NOT NULL,
+        {table_name.split('.')[-1]}_ID serial NOT NULL,
         ID int NOT NULL,
         Name text NOT NULL,
         {sql_create_table_script}
