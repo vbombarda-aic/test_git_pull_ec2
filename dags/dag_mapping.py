@@ -11,7 +11,7 @@ db_credentials = {
 "DB_HOST":     'db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com',
 "DB_NAME":     'argo',
 "DB_USER":     'test_admin',
-"DB_PASSWORD": 'test_password',
+"DB_PASSWORD": 'password_test',
 "DB_PORT":     '5432'
 }
 
