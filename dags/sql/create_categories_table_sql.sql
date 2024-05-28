@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS structured.QuestionsCategories;
 CREATE TABLE structured.QuestionsCategories (
   "Category" text,
   "Question" text,
-  FOREIGN KEY ("Question") REFERENCES structured.SurveyQuestions("Question")
+  FOREIGN KEY ("Question") REFERENCES structured.SurveyQuestions("question")
 );
 
 INSERT INTO structured.QuestionsCategories ("Category", "Question")
