@@ -81,8 +81,7 @@ def create_script_table(table_name, valueColumns, arrayColumns):
         ID int NOT NULL,
         Name text NOT NULL,
         {sql_create_table_script}
-        Insertion_date timestamp NOT NULL,
-        CONSTRAINT fk_contentid FOREIGN KEY (ID) REFERENCES structured.content(contentid)
+        Insertion_date timestamp NOT NULL
          );'''
 
 
