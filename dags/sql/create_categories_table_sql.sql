@@ -1,11 +1,5 @@
 DROP TABLE IF EXISTS structured.QuestionsCategories;
 
-CREATE TABLE structured.QuestionsCategories (
-  "Category" text,
-  "Question" text,
-  FOREIGN KEY ("Question") REFERENCES structured.SurveyQuestions("question")
-);
-
-INSERT INTO structured.QuestionsCategories ("Category", "Question")
+CREATE TABLE structured.QuestionsCategories AS
   SELECT A."Category", A."Question"
-  FROM "mapping_table" AS A;
+  FROM "mapping_table" AS A
