@@ -128,7 +128,7 @@ def create_fact_experience(db_credentials):
             )
     )
 
-    SELECT A."survey", A."content", A."timestamp", ct.*, ct2.*
+    SELECT A."survey", A."contentid" as content_id, A."timestamp", ct.*, ct2.*
 
     FROM structured.Experience A
 
@@ -137,7 +137,7 @@ def create_fact_experience(db_credentials):
     LEFT JOIN ct2 ON ct2."experienceid_2" = A."experienceid";
 
     ALTER TABLE analytics.fact_experience
-    ADD CONSTRAINT fact_pk PRIMARY KEY ("experienceid", "content", "timestamp")
+    ADD CONSTRAINT fact_pk PRIMARY KEY ("experienceid", "content_id", "timestamp", "survey")
     
 
     """
