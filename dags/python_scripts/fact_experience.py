@@ -41,7 +41,7 @@ def create_fact_experience(db_credentials):
     columns = cur.fetchall()
     print('total of columns: ',len(columns))
     # Extract column names
-    column_names = [slugify(row[0] + "_bool", separator="_") + for row in columns]
+    column_names = [slugify(row[0] + "_bool", separator="_") for row in columns]
 
     # Create the column definition string for the crosstab query
     column_definitions2 = ", ".join([f'"{col}" INT' for col in column_names])
