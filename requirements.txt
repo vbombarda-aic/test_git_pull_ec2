@@ -3,7 +3,7 @@ PyYAML
 pendulum
 psycopg2-binary
 requests
-great_expectations
+slugify
 pandas
 boto3
 sqlalchemy
