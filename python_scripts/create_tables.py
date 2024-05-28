@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS structured.Experience (
     RespondentID text  NOT NULL,
     Timestamp timestamp  NOT NULL,
     Survey text  NOT NULL,
-    Content text  NOT NULL,
+    ContentID integer  NOT NULL,
     CONSTRAINT Experience_pk PRIMARY KEY (ExperienceID)
 );
 
@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS structured.SurveyQuestions (
 -- foreign keys
 -- Reference: Experience_Content (table: Experience)
 ALTER TABLE structured.Experience ADD CONSTRAINT Experience_Content
-    FOREIGN KEY (Content)
-    REFERENCES structured.Content (Content)  
+    FOREIGN KEY (ContentID)
+    REFERENCES structured.Content (ContentID)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
