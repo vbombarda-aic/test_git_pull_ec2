@@ -106,7 +106,7 @@ def create_tables(dbname, user, password, host, port):
 create_tables(
     dbname='argo',
     user='test_admin',
-    password='test_password',
+    password='password_test',
     host='db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com',
     port='5432'
 )
