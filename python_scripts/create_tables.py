@@ -3,7 +3,7 @@ import psycopg2
 # SQL script to create tables and constraints
 sql_script = """
 CREATE TABLE IF NOT EXISTS structured.Content (
-    ContentID serial  NOT NULL,
+    ContentID serial  NOT NULL UNIQUE,
     Content text  NOT NULL UNIQUE,
     CONSTRAINT Content_pk PRIMARY KEY (ContentID, Content)
 );
