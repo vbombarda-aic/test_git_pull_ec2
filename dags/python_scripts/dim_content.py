@@ -68,5 +68,7 @@ def create_dimension_content(db_credentials):
     ADD CONSTRAINT content_pk PRIMARY KEY ("content_id", "name");
     '''
     cur.execute(sql.SQL(query))
+    conn.commit()
+    print("Table created successfully")
     cur.close()
     conn.close()
