@@ -1,6 +1,7 @@
 import psycopg2
 import pandas as pd
 from psycopg2 import sql
+from slugify import slugify
 
 def create_dimension_respondents(db_credentials):
     conn = psycopg2.connect(
@@ -24,7 +25,7 @@ def create_dimension_respondents(db_credentials):
     columns = cur.fetchall()
     print('total of columns: ',len(columns))
     # Extract column names
-    column_names = [row[0].strip().replace(" ", "_") for row in columns]
+    column_names = [slugify(row[0], separator="_") for row in columns]
 
     # Create the column definition string for the crosstab query
     column_definitions = ", ".join([f'"{col}" TEXT' for col in column_names])
