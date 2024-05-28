@@ -6,7 +6,7 @@ conn = psycopg2.connect(
             host="db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com",
             dbname="postgres",
             user="test_admin",
-            password="test_password",
+            password="password_test",
             port=5432)
 
 conn.autocommit = True 
@@ -27,7 +27,7 @@ conn = psycopg2.connect(
             host="db-postgres-aic-instance.cx82qoiqyhd2.us-east-1.rds.amazonaws.com",
             dbname=db_name,
             user="test_admin",
-            password="test_password",
+            password="password_test",
             port=5432)
 
 conn.autocommit = True 
