@@ -9,7 +9,9 @@ USING (
         LEFT JOIN structured.Experience B ON
                 A."RespondentID" = B."respondentid"
                 AND A."Survey" = B."survey"
-                AND A."Content" = B."content"
+        LEFT JOIN structured.Content C ON
+                B."contentid" = C."contentid"
+                AND A."Content" = C."content"
     ), surv_quest_ans_view AS
     (
         SELECT B."questionid", A."variable" AS Question
